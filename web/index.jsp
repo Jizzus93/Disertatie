@@ -24,10 +24,17 @@
   </header>
 
   <div id = "mainContent" style="border-width: 1px; border-color: black; padding: 5px;">
-        <form action="" style="text-align: center">
+
+      <form action="" style="text-align: center; margin: auto;" >
+          Search <input type="text" name="search" style="width: 45%;"/><br/>
+          <button>Search!</button>
+
+      </form>
+
+      <form action="" style="text-align: center; margin: auto;">
             <div style = "width: 15%; margin-left: 20px; float: left;">
                 <h3 > List of verbs in RoPAAS</h3>
-
+                <h5> Nr. of elements</h5>
                 <select size="5" name="RoPAAS_vb" style = "width: 85%; " >
                     <option>Abandona</option>
                     <option>Abate</option>
@@ -36,10 +43,11 @@
                     <option>Accepta</option>
                     <option>Activa</option>
                 </select>
+                <button>Download List</button>
             </div>
             <div style = "width: 15%; margin-left: 20px; float: left;">
                 <h3 > List of verbs in RoPAAS</h3>
-
+                <h5> Nr. of elements</h5>
                 <select size="5" name="TreeBank_vb" style = "width: 85%;">
                 <option>Abandona</option>
                 <option>Abate</option>
@@ -48,10 +56,11 @@
                 <option>Accepta</option>
                 <option>Activa</option>
                 </select>
+                <button>Download List</button>
             </div>
             <div style = "width: 15%; margin-left: 20px; float: left;">
                 <h3 > List of verbs in RoPAAS</h3>
-
+                <h5> Nr. of elements</h5>
                 <select size="5" name="NotStarted_vb" style = "width: 85%;">
                 <option>Abandona</option>
                 <option>Abate</option>
@@ -60,10 +69,11 @@
                 <option>Accepta</option>
                 <option>Activa</option>
                 </select>
+                <button>Download List</button>
             </div>
             <div style = "width: 15%; margin-left: 20px; float: left;">
                 <h3 > List of verbs in RoPAAS</h3>
-
+                <h5> Nr. of elements</h5>
                 <select size="5" name="NDU_vb" style = "width: 85%; ">
                 <option>Abandona</option>
                 <option>Abate</option>
@@ -72,6 +82,7 @@
                 <option>Accepta</option>
                 <option>Activa</option>
                 </select>
+                <button>Download List</button>
             </div>
 
         </form>

@@ -9,18 +9,29 @@
 <html>
   <head>
     <title>$Title$</title>
+      <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
   </head>
   <body style="padding: 5px;">
-  <header style="text-align: center; border-width: 2px; border-color: black; ">
-        <img style="width: 250px; height: 125px; border-width: 1px; border-color: black; float: left;">
+  <header class=" container-fluid row" >
+        <img class="col-md-4" style="width: 250px; height: 125px; border-width: 1px; border-color: black; ">
 
-        <img style="width: 500px; height: 125px; border-width: 1px; border-color: black; vertical-align: middle;">
+        <img class="col-md-4" style="width: 500px; height: 125px; border-width: 1px; border-color: black; ">
 
-        <form action="loginprocess.jsp" style="float: right;">
-          Email:<input type="text" name="email"/><br/><br/>
-          Password:<input type="password" name="pass"/><br/><br/>
-          <input type="submit" value="login"/>
-        </form>
+      <form class="form-signin col-md-4">
+
+          <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+          <label for="inputEmail" class="sr-only">Email address</label>
+          <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
+          <label for="inputPassword" class="sr-only">Password</label>
+          <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+          <div class="checkbox mb-3">
+              <label>
+                  <input type="checkbox" value="remember-me"> Remember me
+              </label>
+          </div>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+          <p class="mt-5 mb-3 text-muted">© 2017-2018</p>
+      </form>
   </header>
 
   <div id = "mainContent" style="border-width: 1px; border-color: black; padding: 5px;">
@@ -88,6 +99,10 @@
         </form>
 
   </div>
+
+
+
+
 
   </body>
 </html>

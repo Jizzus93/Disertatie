@@ -2,6 +2,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -41,6 +44,19 @@ public class SearchEngine {
         return result;
     }
 
+    @GET
+    @Path("/get")
+    @Produces("image/png")
+    public Response getFile() {
+
+        File file = new File("sample.png");
+
+        ResponseBuilder response = Response.ok((Object) file);
+        response.header("Content-Disposition",
+                "attachment; filename=image_from_server.png");
+        return response.build();
+    }
+
     public SearchEngine()
     {
         //initialize();
@@ -50,7 +66,7 @@ public class SearchEngine {
     {
         String response = "";
         XMLReader xmlFileReader = new XMLReader();
-        ArrayList<Sentence> sentences = xmlFileReader.readXMLFile("C:\\Users\\octak\\Dropbox\\UAIC-Ro.dep.treebank\\tools\\__TreeBank\\08_PopReg.semantic.xml");
+        ArrayList<Sentence> sentences = xmlFileReader.readXMLFile("__TreeBank/08_PopReg.xml");
 
 
         for(Sentence s: sentences)
@@ -62,13 +78,23 @@ public class SearchEngine {
                 if(!searchMap.containsKey(verb))
                 {
                     ArrayList<Occurance> occuranceList = new ArrayList<Occurance>();
-                    occuranceList.add(new Occurance("08_PopReg.semantic", s.getID()));
+                    occuranceList.add(new Occurance("08_PopReg", s.getID()));
                     searchMap.put(verb, occuranceList);
 
                 }
                 else
                 {
-                    searchMap.get(verb).add(new Occurance("08_PopReg.semantic", s.getID()));
+                    //TODO: Clarify if this should be unique or if this should be modified in order to take the verb id into account
+                    Occurance currentOccurance = new Occurance("08_PopReg", s.getID());
+                    if(!searchMap.get(verb).contains(currentOccurance))
+                    {
+                        searchMap.get(verb).add(currentOccurance);
+                    }
+                    else
+                    {
+                        response+= "it worked somehow";
+                    }
+
 
                 }
             }

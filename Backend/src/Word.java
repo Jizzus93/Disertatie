@@ -120,15 +120,15 @@ public class Word {
         XMLReader xmlFileReader = new XMLReader();
         //List<String> response = xmlFileReader.readXMLFile("C:\\Users\\octak\\Dropbox\\UAIC-Ro.dep.treebank\\tools\\__TreeBank\\08_PopReg.semantic.xml");
 
-        Occurance a_occurance = new Occurance("08_PopReg.semantic", "08_PopReg.semantic_1_");
+        Occurance a_occurance = new Occurance("08_PopReg", "08_PopReg_8_");
         Sentence a_Sentence = xmlFileReader.getSentence(a_occurance);
         result += a_Sentence.toString() + "\n\n";
 
-        a_occurance = new Occurance("08_PopReg.semantic", "08_PopReg.semantic_2_");
+        a_occurance = new Occurance("08_PopReg", "08_PopReg_9_");
         a_Sentence = xmlFileReader.getSentence(a_occurance);
         result += a_Sentence.toString() + "\n\n";
 
-        a_occurance = new Occurance("08_PopReg.semantic", "08_PopReg.semantic_5_");
+        a_occurance = new Occurance("08_PopReg", "08_PopReg_12_");
         a_Sentence = xmlFileReader.getSentence(a_occurance);
         result += a_Sentence.toString() + "\n\n";
 

@@ -17,7 +17,7 @@ public class XMLReader {
 
         try {
 
-            File fXmlFile = new File("C:\\Users\\octak\\Dropbox\\UAIC-Ro.dep.treebank\\tools\\__TreeBank\\" + a_occurance.getTreebankID() + ".xml");
+            File fXmlFile = new File("__TreeBank/" + a_occurance.getTreebankID() + ".xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);

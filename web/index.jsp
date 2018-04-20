@@ -13,7 +13,7 @@
   </head>
   <body style="padding: 5px;">
   <header class=" container-fluid row" >
-        <img class="col-md-4" style="width: 250px; height: 125px; border-width: 1px; border-color: black; ">
+        <img class="col-md-4" style="width: 250px; height: 125px; border-width: 1px; border-color: black; " src="http://localhost:8080/Backend_war_exploded/searchEngine/get">
 
         <img class="col-md-4" style="width: 500px; height: 125px; border-width: 1px; border-color: black; ">
 

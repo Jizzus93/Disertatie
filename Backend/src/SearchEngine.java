@@ -33,7 +33,7 @@ public class SearchEngine {
             for(Occurance o: occurances)
             {
                 Sentence a_Sentence = xmlFileReader.getSentence(o);
-                result += a_Sentence.toString() + "\n\n";
+                result += a_Sentence.toString() + "\nWordId: " + o.getWordID() + "\n";
             }
         }
         else
@@ -71,24 +71,24 @@ public class SearchEngine {
 
         for(Sentence s: sentences)
         {
-            ArrayList<String> verbList = getVerbList(s);
+            ArrayList<Word> verbList = getVerbList(s);
 
-            for(String verb: verbList)
+            for(Word verb: verbList)
             {
-                if(!searchMap.containsKey(verb))
+                if(!searchMap.containsKey(verb.getLemma()))
                 {
                     ArrayList<Occurance> occuranceList = new ArrayList<Occurance>();
-                    occuranceList.add(new Occurance("08_PopReg", s.getID()));
-                    searchMap.put(verb, occuranceList);
+                    occuranceList.add(new Occurance("08_PopReg", s.getID(), verb.getId()));
+                    searchMap.put(verb.getLemma(), occuranceList);
 
                 }
                 else
                 {
                     //TODO: Clarify if this should be unique or if this should be modified in order to take the verb id into account
-                    Occurance currentOccurance = new Occurance("08_PopReg", s.getID());
-                    if(!searchMap.get(verb).contains(currentOccurance))
+                    Occurance currentOccurance = new Occurance("08_PopReg", s.getID(), verb.getId());
+                    if(!searchMap.get(verb.getLemma()).contains(currentOccurance))
                     {
-                        searchMap.get(verb).add(currentOccurance);
+                        searchMap.get(verb.getLemma()).add(currentOccurance);
                     }
                     else
                     {
@@ -104,15 +104,15 @@ public class SearchEngine {
         return response;
     }
 
-    private ArrayList<String> getVerbList(Sentence aSentence)
+    private ArrayList<Word> getVerbList(Sentence aSentence)
     {
-        ArrayList<String> verbList = new ArrayList<String>();
+        ArrayList<Word> verbList = new ArrayList<Word>();
 
         for(Word w: aSentence.getWordList())
         {
             if(w.getPOSTag().startsWith("V"))
             {
-                verbList.add(w.getLemma());
+                verbList.add(w);
             }
         }
 

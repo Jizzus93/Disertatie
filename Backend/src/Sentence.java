@@ -41,6 +41,12 @@ public class Sentence {
         return  this.mWordList;
     }
 
+    //WARNING: wordId counter starts from 1
+    public Word getWord(int wordId)
+    {
+        return this.mWordList.get(wordId - 1);
+    }
+
 
     //SETTERS
 

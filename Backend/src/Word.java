@@ -1,3 +1,5 @@
+import org.graphstream.graph.Node;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -6,7 +8,7 @@ import java.util.List;
 
 // The Java class will be hosted at the URI path "/word"
 @Path("/word")
-public class Word {
+public class Word{
     private int mID;
     private String mForm;
     private String mLemma;
@@ -120,7 +122,7 @@ public class Word {
         XMLReader xmlFileReader = new XMLReader();
         //List<String> response = xmlFileReader.readXMLFile("C:\\Users\\octak\\Dropbox\\UAIC-Ro.dep.treebank\\tools\\__TreeBank\\08_PopReg.semantic.xml");
 
-        Occurance a_occurance = new Occurance("08_PopReg", "08_PopReg_8_");
+        /*Occurance a_occurance = new Occurance("08_PopReg", "08_PopReg_8_");
         Sentence a_Sentence = xmlFileReader.getSentence(a_occurance);
         result += a_Sentence.toString() + "\n\n";
 
@@ -131,6 +133,7 @@ public class Word {
         a_occurance = new Occurance("08_PopReg", "08_PopReg_12_");
         a_Sentence = xmlFileReader.getSentence(a_occurance);
         result += a_Sentence.toString() + "\n\n";
+        */
 
         return result;
     }

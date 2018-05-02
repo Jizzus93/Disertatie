@@ -30,11 +30,15 @@ public class SearchEngine {
         if(searchMap.containsKey(word))
         {
             ArrayList<Occurance> occurances = searchMap.get(word);
+            VerbPattern currentVerbPattern = new VerbPattern(occurances.get(1));
             for(Occurance o: occurances)
             {
                 Sentence a_Sentence = xmlFileReader.getSentence(o);
+
                 result += a_Sentence.toString() + "\nWordId: " + o.getWordID() + "\n";
             }
+
+            currentVerbPattern.getImageResource();
         }
         else
         {

@@ -2,6 +2,8 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.DefaultGraph;
 import org.graphstream.stream.file.FileSinkImages;
+import org.graphstream.ui.j2dviewer.J2DGraphRenderer;
+
 
 import java.awt.*;
 import java.io.File;
@@ -19,30 +21,41 @@ public class VerbPattern {
         Sentence a_Sentence = xmlFileReader.getSentence(o);
 
         //adding the verb as the root node
-        mPattern.addNode(a_Sentence.getWord(o.getWordID()).getForm());
+        mPattern.addNode("Id" + o.getWordID());
 
         //make the root verb blue, so it stands out
-        Node root = mPattern.getNode(a_Sentence.getWord(o.getWordID()).getForm());
-        root.setAttribute("ui.color", Color.BLUE);
-        root.setAttribute("ui.size", "2gu");
-        root.addAttribute("ui.label", a_Sentence.getWord(o.getWordID()).getForm());
+        Node root = mPattern.getNode("Id" + o.getWordID());
+        //root.setAttribute("ui.color", Color.BLUE);
+        //root.setAttribute("ui.size", "2gu");
+        //root.addAttribute("ui.label", a_Sentence.getWord(o.getWordID()).getForm());
 
-        for(Word w: a_Sentence.getWordList())
+        createGraphFromRoot(o.getWordID(), a_Sentence);
+        
+
+    }
+
+    private void createGraphFromRoot(int rootId, Sentence aSentence)
+    {
+        for(Word w: aSentence.getWordList())
         {
-            if(w.getHead() == o.getWordID())
+            if(w.getHead() == rootId)
             {
                 String nodeId = "Id" + w.getId();
                 mPattern.addNode(nodeId);
+
                 Node currentNode = mPattern.getNode(nodeId);
-                currentNode.addAttribute("ui.label", w.getForm());
-                mPattern.addEdge("Edge"+nodeId, root, currentNode);
+                Node rootNode = mPattern.getNode("Id" + rootId);
+
+                //currentNode.addAttribute("ui.label", w.getForm());
+                mPattern.addEdge("Edge"+nodeId, rootNode, currentNode);
+
                 Edge currentEdge = mPattern.getEdge("Edge"+nodeId);
-                currentNode.addAttribute("ui.label", w.getDepRel());
+                //currentEdge.addAttribute("ui.label", w.getDepRel());
+
+                //we should add all the children until there are node left
+                createGraphFromRoot(w.getId(), aSentence);
             }
         }
-
-        
-
     }
 
 

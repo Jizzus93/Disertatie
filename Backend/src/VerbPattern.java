@@ -9,18 +9,22 @@ import org.graphstream.ui.swingViewer.Viewer;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.graphstream.stream.file.FileSinkImages.*;
 
 public class VerbPattern {
     //graph
     MultiGraph mPattern;
-    XMLReader xmlFileReader = new XMLReader();
+    ArrayList<String> arguments = new ArrayList<String>();
+    ArrayList<String> adjuncts = new ArrayList<String>();
     //lista de Occurances
 
     VerbPattern(Occurance o)
     {
         mPattern = new MultiGraph("" + o.getTreebankID() + "_" + o.getSentenceID() + "_" + o.getWordID());
+        XMLReader xmlFileReader = new XMLReader();
+
         Sentence a_Sentence = xmlFileReader.getSentence(o);
 
         //adding the verb as the root node
@@ -32,12 +36,12 @@ public class VerbPattern {
         root.setAttribute("ui.size", "2gu");
         root.addAttribute("ui.label", a_Sentence.getWord(o.getWordID()).getForm());
 
-        createGraphFromRoot(o.getWordID(), a_Sentence);
+        createGraphFromRoot(o.getWordID(), a_Sentence, true, true);
         
 
     }
 
-    private void createGraphFromRoot(int rootId, Sentence aSentence)
+    private void createGraphFromRoot(int rootId, Sentence aSentence, boolean addArguments, boolean addAdjuncts)
     {
         for(Word w: aSentence.getWordList())
         {
@@ -47,6 +51,16 @@ public class VerbPattern {
                 mPattern.addNode(nodeId);
 
                 Node currentNode = mPattern.getNode(nodeId);
+                if(addArguments)
+                {
+                    arguments.add(w.getDepRel());
+                }
+
+                if(addAdjuncts)
+                {
+                    adjuncts.add(w.getDepRel());
+                }
+
                 Node rootNode = mPattern.getNode("Id" + rootId);
 
                 currentNode.addAttribute("ui.label", w.getForm());
@@ -56,7 +70,7 @@ public class VerbPattern {
                 currentEdge.addAttribute("ui.label", w.getDepRel());
 
                 //we should add all the children until there are node left
-                createGraphFromRoot(w.getId(), aSentence);
+                createGraphFromRoot(w.getId(), aSentence, false, false);
             }
         }
     }

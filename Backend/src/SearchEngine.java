@@ -1,3 +1,5 @@
+import com.google.gson.Gson;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -17,7 +19,7 @@ public class SearchEngine {
     @GET
     @Path("/search")
     // The Java method will produce content identified by the MIME Media type "text/plain"
-    @Produces("text/plain")
+    @Produces("application/json")
     public String search(@QueryParam("word") String word)
     {
         String result= "";
@@ -25,25 +27,29 @@ public class SearchEngine {
         {
             result += initialize();
         }
-
+        Gson gson  = new Gson();
         XMLReader xmlFileReader = new XMLReader();
         if(searchMap.containsKey(word))
         {
             ArrayList<Occurance> occurances = searchMap.get(word);
-            VerbPattern currentVerbPattern = new VerbPattern(occurances.get(1));
+            VerbEntity ve = new VerbEntity(occurances);
+            return gson.toJson(ve);
+
+            /*
             for(Occurance o: occurances)
             {
                 Sentence a_Sentence = xmlFileReader.getSentence(o);
 
                 result += a_Sentence.toString() + "\nWordId: " + o.getWordID() + "\n";
             }
-
-            currentVerbPattern.getImageResource();
+            */
+            //currentVerbPattern.getImageResource();
         }
         else
         {
             result += "The word you are searching for is not in our database!!!" + searchMap.size();
         }
+
 
         return result;
     }

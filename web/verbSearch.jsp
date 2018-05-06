@@ -45,6 +45,7 @@
 
         Gson gson = new Gson();
         VerbEntityBean verbEntitiy = gson.fromJson(jsonStr.toString(), VerbEntityBean.class);
+        //TODO: HANDLE THE CASE WHERE THE WORD ISN'T IN THE DATABASE
 
     %>
 

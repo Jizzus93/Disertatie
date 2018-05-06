@@ -3,9 +3,9 @@ import java.util.ArrayList;
 public class VerbEntity {
     ArrayList<VerbPattern> patterns = new ArrayList<VerbPattern>();
 
-    VerbEntity(ArrayList<Occurance> occurances)
+    VerbEntity(ArrayList<Occurrence> occurrences)
     {
-        for(Occurance o: occurances)
+        for(Occurrence o: occurrences)
         {
             patterns.add(new VerbPattern(o));
         }

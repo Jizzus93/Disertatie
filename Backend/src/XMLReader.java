@@ -11,13 +11,13 @@ import java.util.List;
 
 public class XMLReader {
 
-    public Sentence getSentence(Occurance a_occurance)
+    public Sentence getSentence(Occurrence a_occurrence)
     {
         Sentence result = new Sentence();
 
         try {
 
-            File fXmlFile = new File("__TreeBank/" + a_occurance.getTreebankID() + ".xml");
+            File fXmlFile = new File("__TreeBank/" + a_occurrence.getTreebankID() + ".xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
@@ -37,7 +37,7 @@ public class XMLReader {
 
                     Element eElement = (Element) nNode;
 
-                    if(eElement.getAttribute("id").equals(a_occurance.getSentenceID()))
+                    if(eElement.getAttribute("id").equals(a_occurrence.getSentenceID()))
                     {
                         String id = eElement.getAttribute("id");
                         String parser = eElement.getAttribute("parser");

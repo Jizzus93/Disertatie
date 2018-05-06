@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 @Path("/searchEngine")
 public class SearchEngine {
-    private HashMap<String, ArrayList<Occurance>> searchMap = new HashMap<String , ArrayList<Occurance>>();
+    private HashMap<String, ArrayList<Occurrence>> searchMap = new HashMap<String , ArrayList<Occurrence>>();
     private boolean isInitialized = false;
 
     @GET
@@ -31,12 +31,12 @@ public class SearchEngine {
         XMLReader xmlFileReader = new XMLReader();
         if(searchMap.containsKey(word))
         {
-            ArrayList<Occurance> occurances = searchMap.get(word);
-            VerbEntity ve = new VerbEntity(occurances);
+            ArrayList<Occurrence> occurrences = searchMap.get(word);
+            VerbEntity ve = new VerbEntity(occurrences);
             return gson.toJson(ve);
 
             /*
-            for(Occurance o: occurances)
+            for(Occurence o: occurences)
             {
                 Sentence a_Sentence = xmlFileReader.getSentence(o);
 
@@ -87,18 +87,18 @@ public class SearchEngine {
             {
                 if(!searchMap.containsKey(verb.getLemma()))
                 {
-                    ArrayList<Occurance> occuranceList = new ArrayList<Occurance>();
-                    occuranceList.add(new Occurance("08_PopReg", s.getID(), verb.getId()));
+                    ArrayList<Occurrence> occuranceList = new ArrayList<Occurrence>();
+                    occuranceList.add(new Occurrence("08_PopReg", s.getID(), verb.getId()));
                     searchMap.put(verb.getLemma(), occuranceList);
 
                 }
                 else
                 {
                     //TODO: Clarify if this should be unique or if this should be modified in order to take the verb id into account
-                    Occurance currentOccurance = new Occurance("08_PopReg", s.getID(), verb.getId());
-                    if(!searchMap.get(verb.getLemma()).contains(currentOccurance))
+                    Occurrence currentOccurrence = new Occurrence("08_PopReg", s.getID(), verb.getId());
+                    if(!searchMap.get(verb.getLemma()).contains(currentOccurrence))
                     {
-                        searchMap.get(verb.getLemma()).add(currentOccurance);
+                        searchMap.get(verb.getLemma()).add(currentOccurrence);
                     }
                     else
                     {

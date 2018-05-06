@@ -1,9 +1,9 @@
-public class Occurance {
+public class Occurrence {
     private String mTreeBankID;
     private String mSentenceID;
     private int mWordID;
 
-    Occurance(String aTreeBankId, String aSentenceID,int aWordID)
+    Occurrence(String aTreeBankId, String aSentenceID,int aWordID)
     {
         this.mTreeBankID = aTreeBankId;
         this.mSentenceID = aSentenceID;

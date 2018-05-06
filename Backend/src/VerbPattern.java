@@ -16,30 +16,51 @@ import static org.graphstream.stream.file.FileSinkImages.*;
 public class VerbPattern {
     //graph
     transient MultiGraph mPattern;
+    transient XMLReader xmlFileReader = new XMLReader();
     ArrayList<String> arguments = new ArrayList<String>();
     ArrayList<String> adjuncts = new ArrayList<String>();
-    //lista de Occurances
+    ArrayList<Occurrence> examples = new ArrayList<Occurrence>();
+    int examplesNumber;
 
-    VerbPattern(Occurance o)
+
+    VerbPattern(Occurrence o)
     {
         mPattern = new MultiGraph("" + o.getTreebankID() + "_" + o.getSentenceID() + "_" + o.getWordID());
-        XMLReader xmlFileReader = new XMLReader();
+        examplesNumber = 0;
+        addExample(o);
 
-        Sentence a_Sentence = xmlFileReader.getSentence(o);
-
-        //adding the verb as the root node
-        mPattern.addNode("Id" + o.getWordID());
-
-        //make the root verb blue, so it stands out
-        Node root = mPattern.getNode("Id" + o.getWordID());
-        root.setAttribute("ui.color", Color.BLUE);
-        root.setAttribute("ui.size", "2gu");
-        root.addAttribute("ui.label", a_Sentence.getWord(o.getWordID()).getForm());
-
-        createGraphFromRoot(o.getWordID(), a_Sentence, true, true);
-        
+        createGraph(o);
 
     }
+
+    public void addExample(Occurrence occurrence)
+    {
+        examples.add(occurrence);
+        examplesNumber++;
+    }
+
+    public int getExamplesNumber()
+    {
+        return examplesNumber;
+    }
+
+
+    private void createGraph(Occurrence occurrence)
+    {
+        Sentence a_Sentence = xmlFileReader.getSentence(occurrence);
+
+        //adding the verb as the root node
+        mPattern.addNode("Id" + occurrence.getWordID());
+
+        //make the root verb blue, so it stands out
+        Node root = mPattern.getNode("Id" + occurrence.getWordID());
+        root.setAttribute("ui.color", Color.BLUE);
+        root.setAttribute("ui.size", "2gu");
+        root.addAttribute("ui.label", a_Sentence.getWord(occurrence.getWordID()).getForm());
+
+        createGraphFromRoot(occurrence.getWordID(), a_Sentence, true, true);
+    }
+
 
     private void createGraphFromRoot(int rootId, Sentence aSentence, boolean addArguments, boolean addAdjuncts)
     {
@@ -83,7 +104,7 @@ public class VerbPattern {
         System.setProperty("java.awt.headless","false");
 
 
-        FileSinkImages pic = new FileSinkImages("graphics/" + mPattern.getId(), OutputType.PNG, Resolutions.HD720, OutputPolicy.ByAttributeEventOutput);
+        FileSinkImages pic = new FileSinkImages("graphics/" + mPattern.getId() + "/img", OutputType.PNG, Resolutions.HD720, OutputPolicy.ByAttributeEventOutput);
         pic.setLayoutPolicy(LayoutPolicy.ComputedInLayoutRunner);
 
 

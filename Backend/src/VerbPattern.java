@@ -15,7 +15,7 @@ import static org.graphstream.stream.file.FileSinkImages.*;
 
 public class VerbPattern {
     //graph
-    MultiGraph mPattern;
+    transient MultiGraph mPattern;
     ArrayList<String> arguments = new ArrayList<String>();
     ArrayList<String> adjuncts = new ArrayList<String>();
     //lista de Occurances

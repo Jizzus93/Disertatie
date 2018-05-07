@@ -14,6 +14,8 @@ import static org.graphstream.stream.file.FileSinkImages.*;
 public class VerbPatternBean {
     ArrayList<String> arguments = new ArrayList<String>();
     ArrayList<String> adjuncts = new ArrayList<String>();
+    ArrayList<OccurrenceBean> examples = new ArrayList<OccurrenceBean>();
+    int examplesNumber;
     //lista de Occurances
 
 

@@ -14,22 +14,37 @@ import java.util.ArrayList;
 import static org.graphstream.stream.file.FileSinkImages.*;
 
 public class VerbPattern {
-    transient MultiGraph multiGraph;
+    transient MultiGraph exampleGraph;
     transient XMLReader xmlFileReader = new XMLReader();
     ArrayList<String> arguments = new ArrayList<String>();
     ArrayList<String> adjuncts = new ArrayList<String>();
     ArrayList<Occurrence> examples = new ArrayList<Occurrence>();
     int examplesNumber;
+    transient String logs = "";
 
 
-    VerbPattern(Occurrence o)
+    VerbPattern(Occurrence occurrence)
     {
 
         examplesNumber = 0;
-        addExample(o);
-        createGraph( o , multiGraph);
+        addExample(occurrence);
+        MultiGraph exampleGraph = new MultiGraph("" + occurrence.getTreebankID() + "_" + occurrence.getSentenceID() + "_" + occurrence.getWordID());
+        createGraph( occurrence , exampleGraph);
         //TODO: GENERATE GRAPH FOR EXAMPLE 1 OR DECOUPLE ARGUMENTS GENERATION
 
+    }
+
+    public ArrayList<String> getArguments()
+    {
+        return this.arguments;
+    }
+
+    public ArrayList<String> getAdjuncts() {
+        return this.adjuncts;
+    }
+
+    public ArrayList<Occurrence> getExamples() {
+        return this.examples;
     }
 
     @Override
@@ -45,8 +60,17 @@ public class VerbPattern {
         }
 
         VerbPattern vp = (VerbPattern) obj;
-        //TODO: If the arguments are the same it should be the same pattern
-        return (true);
+
+        for(String str: arguments)
+        {
+            logs += "Looking for " + str + "\n";
+            if(!vp.getArguments().contains(str))
+            {
+                return false;
+            }
+        }
+
+        return true;
 
     }
 
@@ -89,6 +113,21 @@ public class VerbPattern {
         return pathToPNGFile;
     }
 
+    private ArrayList<String> computeArguments(Occurrence occurrence)
+    {
+        ArrayList<String> tmp_arguments = new ArrayList<String>();
+        Sentence aSentence = xmlFileReader.getSentence(occurrence);
+
+        for(Word w: aSentence.getWordList())
+        {
+            if(w.getHead() == occurrence.getWordID())
+            {
+                tmp_arguments.add(w.getDepRel());
+            }
+        }
+
+        return tmp_arguments;
+    }
 
     private void createGraph(Occurrence occurrence, MultiGraph graphRepresentation)
     {

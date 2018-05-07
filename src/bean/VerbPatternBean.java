@@ -26,4 +26,12 @@ public class VerbPatternBean {
     public ArrayList<String> getArguments() {
         return arguments;
     }
+
+    public ArrayList<OccurrenceBean> getExamples() {
+        return examples;
+    }
+
+    public int getExamplesNumber() {
+        return examplesNumber;
+    }
 }

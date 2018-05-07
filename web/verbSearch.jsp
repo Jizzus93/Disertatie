@@ -4,7 +4,8 @@
 <%@ page import="java.io.InputStreamReader" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="bean.VerbPatternBean" %>
-<%@ page import="bean.VerbEntityBean" %><%--
+<%@ page import="bean.VerbEntityBean" %>
+<%@ page import="bean.OccurrenceBean" %><%--
   Created by IntelliJ IDEA.
   User: octak
   Date: 5/6/2018
@@ -125,11 +126,30 @@
                                     adjuncts += s + " ";
                                 }
                                 out.println("<p>Adjuncts: " + adjuncts + "</p>");
+
+                                out.println("<h4>Examples</h4>");
+                                String examples = "";
+                                for(int j=0; j< verbEntitiy.getPatterns().get(i).getExamplesNumber(); j++)
+                                {
+                                    examples += "<a href=\"patternExpand.jsp?word="+searchedVerb+"&patternId="+i+"&exampleId="+j+"\">" + (j+1) + "</a> ";
+                                    if(j == 12)
+                                    {
+                                        examples += "<br>";
+                                    }
+                                    if(j>20)
+                                    {
+                                        examples += "<span>...</span>";
+                                        break;
+                                    }
+                                }
+                                out.println("<p>" + examples + "</p>");
+
                                 out.println("<h4>Statistics</h4>");
                                 out.println("<p>Occurrence Rate: </p>");
                                 out.println("<form action=\"patternExpand.jsp\" method=\"get\" align=\"right\">");
                                 out.println("<input type=\"hidden\" name=\"word\" value=\""+searchedVerb+"\">");
                                 out.println("<input type=\"hidden\" name=\"patternId\" value=\""+i+"\">");
+                                out.println("<input type=\"hidden\" name=\"exampleId\" value=\"0\">");
                                 out.println("<button >More...</button>");
                                 out.println("</form>");
                                 out.println("</div>");

@@ -67,6 +67,29 @@ public class SearchEngine {
         return response.build();
     }
 
+    @GET
+    @Path("/get")
+    @Produces("application/json")
+    public String getPatternInfo(@QueryParam("verb") String verb, @QueryParam("patternId") int patternId, @QueryParam("exampleId") int exampleId)
+    {
+        String result = "";
+
+        if(!isInitialized)
+        {
+            result += initialize();
+        }
+        Gson gson  = new Gson();
+        XMLReader xmlFileReader = new XMLReader();
+        if(searchMap.containsKey(verb)) {
+
+            VerbEntity ve = searchMap.get(verb);
+            return gson.toJson(ve);
+        }
+
+        return result;
+    }
+
+
     public SearchEngine()
     {
         //initialize();

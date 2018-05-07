@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import static org.graphstream.stream.file.FileSinkImages.*;
 
 public class VerbPattern {
-    transient MultiGraph exampleGraph;
+
     transient XMLReader xmlFileReader = new XMLReader();
     ArrayList<String> arguments = new ArrayList<String>();
     ArrayList<String> adjuncts = new ArrayList<String>();
@@ -28,9 +28,8 @@ public class VerbPattern {
 
         examplesNumber = 0;
         addExample(occurrence);
-        MultiGraph exampleGraph = new MultiGraph("" + occurrence.getTreebankID() + "_" + occurrence.getSentenceID() + "_" + occurrence.getWordID());
-        createGraph( occurrence , exampleGraph);
-        //TODO: GENERATE GRAPH FOR EXAMPLE 1 OR DECOUPLE ARGUMENTS GENERATION
+        arguments = computeArguments(occurrence);
+        adjuncts = computeAdjuncts(occurrence);
 
     }
 
@@ -63,7 +62,7 @@ public class VerbPattern {
 
         for(String str: arguments)
         {
-            logs += "Looking for " + str + "\n";
+            //logs += "Looking for " + str + "\n";
             if(!vp.getArguments().contains(str))
             {
                 return false;
@@ -127,6 +126,22 @@ public class VerbPattern {
         }
 
         return tmp_arguments;
+    }
+
+    private ArrayList<String> computeAdjuncts(Occurrence occurrence)
+    {
+        ArrayList<String> tmp_adjuncts = new ArrayList<String>();
+        Sentence aSentence = xmlFileReader.getSentence(occurrence);
+
+        for(Word w: aSentence.getWordList())
+        {
+            if(w.getHead() == occurrence.getWordID())
+            {
+                tmp_adjuncts.add(w.getDepRel());
+            }
+        }
+
+        return tmp_adjuncts;
     }
 
     private void createGraph(Occurrence occurrence, MultiGraph graphRepresentation)

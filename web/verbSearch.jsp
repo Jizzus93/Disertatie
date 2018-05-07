@@ -131,7 +131,7 @@
                                 String examples = "";
                                 for(int j=0; j< verbEntitiy.getPatterns().get(i).getExamplesNumber(); j++)
                                 {
-                                    examples += "<a href=\"patternExpand.jsp?word="+searchedVerb+"&patternId="+i+"&exampleId="+j+"\">" + (j+1) + "</a> ";
+                                    examples += "<a href=\"patternExpand.jsp?verb="+searchedVerb+"&patternId="+i+"&exampleId="+j+"\">" + (j+1) + "</a> ";
                                     if(j == 12)
                                     {
                                         examples += "<br>";
@@ -147,7 +147,7 @@
                                 out.println("<h4>Statistics</h4>");
                                 out.println("<p>Occurrence Rate: </p>");
                                 out.println("<form action=\"patternExpand.jsp\" method=\"get\" align=\"right\">");
-                                out.println("<input type=\"hidden\" name=\"word\" value=\""+searchedVerb+"\">");
+                                out.println("<input type=\"hidden\" name=\"verb\" value=\""+searchedVerb+"\">");
                                 out.println("<input type=\"hidden\" name=\"patternId\" value=\""+i+"\">");
                                 out.println("<input type=\"hidden\" name=\"exampleId\" value=\"0\">");
                                 out.println("<button >More...</button>");

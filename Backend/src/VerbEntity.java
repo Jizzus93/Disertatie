@@ -11,6 +11,10 @@ public class VerbEntity {
         }
     }
 
+    public void addOccurrence(Occurrence occurrence)
+    {
+
+    }
 
 
 }

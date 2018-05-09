@@ -46,6 +46,11 @@ public class VerbPattern {
         return this.examples;
     }
 
+    public Sentence getExampleSentence(int exampleId)
+    {
+        return xmlFileReader.getSentence(examples.get(exampleId));
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(obj == this)

@@ -16,6 +16,7 @@ public class SearchEngine {
     private HashMap<String, VerbEntity> searchMap = new HashMap<String , VerbEntity>();
     private boolean isInitialized = false;
 
+
     @GET
     @Path("/search")
     // The Java method will produce content identified by the MIME Media type "text/plain"
@@ -28,22 +29,13 @@ public class SearchEngine {
             result += initialize();
         }
         Gson gson  = new Gson();
-        XMLReader xmlFileReader = new XMLReader();
+
         if(searchMap.containsKey(word))
         {
 
             VerbEntity ve = searchMap.get(word);
             return gson.toJson(ve);
 
-            /*
-            for(Occurence o: occurences)
-            {
-                Sentence a_Sentence = xmlFileReader.getSentence(o);
-
-                result += a_Sentence.toString() + "\nWordId: " + o.getWordID() + "\n";
-            }
-            */
-            //currentVerbPattern.getImageResource();
         }
         else
         {
@@ -55,11 +47,11 @@ public class SearchEngine {
     }
 
     @GET
-    @Path("/get")
+    @Path("/getImageResource")
     @Produces("image/png")
-    public Response getFile() {
+    public Response getFile(@QueryParam("graphicsInfo")String graphicsInfo) {
 
-        File file = new File("sample.png");
+        File file = new File(graphicsInfo);
 
         ResponseBuilder response = Response.ok((Object) file);
         response.header("Content-Disposition",
@@ -68,7 +60,7 @@ public class SearchEngine {
     }
 
     @GET
-    @Path("/get")
+    @Path("/getPatternInfo")
     @Produces("application/json")
     public String getPatternInfo(@QueryParam("verb") String verb, @QueryParam("patternId") int patternId, @QueryParam("exampleId") int exampleId)
     {
@@ -79,11 +71,12 @@ public class SearchEngine {
             result += initialize();
         }
         Gson gson  = new Gson();
-        XMLReader xmlFileReader = new XMLReader();
+
         if(searchMap.containsKey(verb)) {
 
             VerbEntity ve = searchMap.get(verb);
-            return gson.toJson(ve);
+            VerbPatternExampleInfo exampleInfo = ve.getPatternExampleInfo(patternId,exampleId);
+            return gson.toJson(exampleInfo);
         }
 
         return result;

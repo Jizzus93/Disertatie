@@ -1,14 +1,7 @@
-import org.graphstream.graph.Node;
+package bean;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import java.util.List;
 
-// The Java class will be hosted at the URI path "/word"
-@Path("/word")
-public class Word{
+public class WordBean{
     private int mID;
     private String mForm;
     private String mLemma;
@@ -18,18 +11,18 @@ public class Word{
     private String mDepRel;
 
 
-    public Word(int a_ID,String a_Form, String a_Lemma, String a_POSTag, int a_Head, String a_Chunk, String a_DepRel)
+    public WordBean(int a_ID,String a_Form, String a_Lemma, String a_POSTag, int a_Head, String a_Chunk, String a_DepRel)
     {
-        this.mID = a_ID;
         this.mForm = a_Form;
         this.mLemma = a_Lemma;
+        this.mID = a_ID;
         this.mPOSTag = a_POSTag;
         this.mHead = a_Head;
         this.mChunk = a_Chunk;
         this.mDepRel = a_DepRel;
     }
 
-    public Word()
+    public WordBean()
     {}
 
     //GETTERS

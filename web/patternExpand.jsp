@@ -3,7 +3,7 @@
 <%@ page import="java.io.BufferedReader" %>
 <%@ page import="java.io.InputStreamReader" %>
 <%@ page import="com.google.gson.Gson" %>
-<%@ page import="bean.VerbPatternExampleInfoBean" %>
+<%@ page import="bean.VerbPatternInfoBean" %>
 <%@ page import="bean.WordBean" %>
 <%@ page import="java.util.ArrayList" %>
 <%--
@@ -26,8 +26,8 @@
 <%
     String searchedVerb = request.getParameter("verb");
     int patternId = Integer.parseInt(request.getParameter("patternId"));
-    int exampleId = Integer.parseInt(request.getParameter("exampleId"));
-    URL url = new URL("http://localhost:8080/Backend_war_exploded/searchEngine/getPatternInfo?verb="+ searchedVerb+"&patternId="+ patternId+"&exampleId="+ exampleId);
+
+    URL url = new URL("http://localhost:8080/Backend_war_exploded/searchEngine/getPatternInfo?verb="+ searchedVerb+"&patternId="+ patternId);
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     conn.setRequestMethod("GET");
     conn.setRequestProperty("Accept", "application/json");
@@ -49,7 +49,7 @@
     conn.disconnect();
 
     Gson gson = new Gson();
-    VerbPatternExampleInfoBean exampleInfoBean = gson.fromJson(jsonStr.toString(), VerbPatternExampleInfoBean.class);
+    VerbPatternInfoBean exampleInfoBean = gson.fromJson(jsonStr.toString(), VerbPatternInfoBean.class);
 %>
 
 <div class="container">
@@ -126,13 +126,8 @@
         <div class="col-md-6 ">
             <h3>CurrentExampleInfo</h3>
             <%
-                out.println("<p>CurrentExampleId: <span class=\"font-weight-bold\">"+(exampleId+1)+"</span> </p");
                 out.println("<p>Sub-Corpus: <span class=\"font-weight-bold\">ADD OCCURRENCE INFO TO SENTENCE</span> </p");
-                out.println("<p>Sentence id: <span class=\"font-weight-bold\">"+exampleInfoBean.getExampleSentence().getID()+"</span> </p");
 
-                out.println("<p>Annotator: <span class=\"font-weight-bold\">"+exampleInfoBean.getExampleSentence().getUser()+"</span> </p");
-                out.println("<p>Date: <span class=\"font-weight-bold\">"+exampleInfoBean.getExampleSentence().getDate()+"</span> </p");
-                out.println("<p>Parser: <span class=\"font-weight-bold\">"+exampleInfoBean.getExampleSentence().getParser()+"</span> </p");
 
                 out.println("<h4>Examples</h4>");
                 String examples = "";
@@ -154,91 +149,9 @@
         </div>
     </div>
 
-    <div class="row">
-        <table class="table">
-            <tbody>
-            <tr>
-                <th scope="row">Form:</th>
-                <%
-                    ArrayList<WordBean> wordList = exampleInfoBean.getExampleSentence().getWordList();
-                    for(WordBean w: wordList)
-                    {
-                        out.println("<td>" + w.getForm() + "</td>");
-                    }
-                %>
-
-            </tr>
-            <tr>
-                <th scope="row">POSTag:</th>
-                <%
-                    for(WordBean w: wordList)
-                    {
-                        out.println("<td>" + w.getPOSTag() + "</td>");
-                    }
-                %>
-
-            </tr>
-
-            </tbody>
-        </table>
-
-        <div class="panel-group">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse2">Collapsible panel</a>
-                    </h4>
-                </div>
-
-                <div id="collapse2" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <table>
-                            <tbody>
-                            <tr>
-                                <th scope="row">DepRel:</th>
-                                <%
-                                    for(WordBean w: wordList)
-                                    {
-                                        out.println("<td>" + w.getDepRel() + "</td>");
-                                    }
-                                %>
-
-                            </tr>
-                            <tr>
-                                <th scope="row">Head:</th>
-                                <%
-                                    for(WordBean w: wordList)
-                                    {
-                                        out.println("<td>" + w.getHead() + "</td>");
-                                    }
-                                %>
-
-                            </tr>
-                            <tr>
-                                <th scope="row">Lemma:</th>
-                                <%
-                                    for(WordBean w: wordList)
-                                    {
-                                        out.println("<td>" + w.getLemma() + "</td>");
-                                    }
-                                %>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-        </div>
 
 
-    </div>
 
-    <div class="row align-content-center">
-        <img class="border-dark"
-        <source src="http://localhost:8080/Backend_war_exploded/searchEngine/getImageResource?graphicsInfo="+<%=exampleInfoBean.getGraphicRepresentationPath()%>> type="PNG">
-        <p><%=exampleInfoBean.getGraphicRepresentationPath()%></p>
-    </div>
 </div>
 
 

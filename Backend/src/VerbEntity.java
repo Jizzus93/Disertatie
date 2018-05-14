@@ -24,14 +24,12 @@ public class VerbEntity {
         }
     }
 
-    public VerbPatternExampleInfo getPatternExampleInfo(int patternID, int exampleId)
+    public VerbPatternInfo getPatternExampleInfo(int patternID)
     {
         VerbPattern vp = patterns.get(patternID);
-        return new VerbPatternExampleInfo(vp.getExampleSentence(exampleId),
-                                            vp.generateImageResource(exampleId),
-                                            vp.getArguments(),
-                                            vp.getAdjuncts(),
-                                            vp.getExamplesNumber());
+        return new VerbPatternInfo(vp.getArguments(),
+                                   vp.getAdjuncts(),
+                                   vp.getExamplesNumber());
     }
 
 }

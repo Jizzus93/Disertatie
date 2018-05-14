@@ -100,6 +100,7 @@
             <div id="layer1" class="tab-pane fade in active">
                 <div class="row">
                     <div class="tab-content col-md-8 ">
+
                         <%
                             for(int i= 0; i<verbEntitiy.getPatterns().size(); i++)
                             {
@@ -112,6 +113,11 @@
                                     out.println("<div id=\"preview_pattern"+(i+1)+"\" class=\"tab-pane fade\">");
                                 }
 
+                        %>
+                        <jsp:include page="patternInfo.jsp" flush="true"></jsp:include>
+                        <%
+
+                                /*
                                 out.println("<h4>Preview</h4>");
                                 String arguments = "";
                                 for(String s : verbEntitiy.getPatterns().get(i).getArguments())
@@ -152,6 +158,7 @@
                                 out.println("<input type=\"hidden\" name=\"exampleId\" value=\"0\">");
                                 out.println("<button >More...</button>");
                                 out.println("</form>");
+                                */
                                 out.println("</div>");
 
                             }

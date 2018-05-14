@@ -62,7 +62,7 @@ public class SearchEngine {
     @GET
     @Path("/getPatternInfo")
     @Produces("application/json")
-    public String getPatternInfo(@QueryParam("verb") String verb, @QueryParam("patternId") int patternId, @QueryParam("exampleId") int exampleId)
+    public String getPatternInfo(@QueryParam("verb") String verb, @QueryParam("patternId") int patternId)
     {
         String result = "";
 
@@ -75,7 +75,7 @@ public class SearchEngine {
         if(searchMap.containsKey(verb)) {
 
             VerbEntity ve = searchMap.get(verb);
-            VerbPatternExampleInfo exampleInfo = ve.getPatternExampleInfo(patternId,exampleId);
+            VerbPatternInfo exampleInfo = ve.getPatternExampleInfo(patternId);
             return gson.toJson(exampleInfo);
         }
 

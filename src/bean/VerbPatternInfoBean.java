@@ -3,18 +3,13 @@ package bean;
 import java.util.ArrayList;
 
 
-public class VerbPatternExampleInfoBean {
-
-    SentenceBean exampleSentence;
-    String graphicRepresentationPath;
+public class VerbPatternInfoBean {
     ArrayList<String> arguments;
     ArrayList<String> adjuncts;
     int examplesNumber;
 
-    VerbPatternExampleInfoBean(SentenceBean aSentence, String graphicsPath, ArrayList<String> arguments, ArrayList<String> adjuncts, int exampleNumber)
+    VerbPatternInfoBean(ArrayList<String> arguments, ArrayList<String> adjuncts, int exampleNumber)
     {
-        this.exampleSentence = aSentence;
-        this.graphicRepresentationPath = graphicsPath;
         this.arguments = arguments;
         this.adjuncts = adjuncts;
         this.examplesNumber = exampleNumber;
@@ -34,18 +29,6 @@ public class VerbPatternExampleInfoBean {
 
     public void setAdjuncts(ArrayList<String> adjuncts) {
         this.adjuncts = adjuncts;
-    }
-
-    public SentenceBean getExampleSentence() {
-        return exampleSentence;
-    }
-
-    public void setExampleSentence(SentenceBean exampleSentence) {
-        this.exampleSentence = exampleSentence;
-    }
-
-    public String getGraphicRepresentationPath() {
-        return graphicRepresentationPath;
     }
 
     public int getExamplesNumber() {

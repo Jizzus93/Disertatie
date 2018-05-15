@@ -112,9 +112,12 @@
                                 {
                                     out.println("<div id=\"preview_pattern"+(i+1)+"\" class=\"tab-pane fade\">");
                                 }
-
+                                String getValue = "?verb="+searchedVerb+"&patternId="+i;
+                                //<jsp:include page="patternInfo.jsp?verb=arde&patternId=0" flush="true"></jsp:include>
+                                //http://localhost:8080/JSPPlayground3_war_exploded/
+                                out.println("<iframe src=\"patternInfo.jsp"+getValue+"\" width=\"100%\" height=\"60%\"></iframe>");
                         %>
-                        <jsp:include page="patternInfo.jsp" flush="true"></jsp:include>
+
                         <%
 
                                 /*

@@ -104,14 +104,14 @@
                 out.println("<p>Advanced_adjuncts: <span class=\"font-weight-bold\">ASK WHERE TO GET THIS</span> </p");
 
                 String arguments = "";
-                for(String s : exampleInfoBean.getArguments())
+                for(String s : exampleInfoBean.getClassicArguments())
                 {
                     arguments += s + " ";
                 }
                 out.println("<p>Arguments: <span class=\"font-weight-bold\">" + arguments + "</span></p>");
 
                 String adjuncts = "";
-                for(String s : exampleInfoBean.getAdjuncts())
+                for(String s : exampleInfoBean.getClassicAdjuncts())
                 {
                     adjuncts += s + " ";
                 }
@@ -131,7 +131,7 @@
 
                 out.println("<h4>Examples</h4>");
                 String examples = "";
-                for(int j=0; j< exampleInfoBean.getExamplesNumber(); j++)
+                for(int j=0; j< exampleInfoBean.getClassicExamplesNumber(); j++)
                 {
                     examples += "<a href=\"patternExpand.jsp?verb="+searchedVerb+"&patternId="+patternId+"&exampleId="+j+"\">" + (j+1) + "</a> ";
                     if(j == 12)

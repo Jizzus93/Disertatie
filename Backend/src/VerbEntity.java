@@ -27,9 +27,11 @@ public class VerbEntity {
     public VerbPatternInfo getPatternExampleInfo(int patternID)
     {
         VerbPattern vp = patterns.get(patternID);
-        return new VerbPatternInfo(vp.getArguments(),
-                                   vp.getAdjuncts(),
-                                   vp.getExamplesNumber());
+        VerbPatternInfo patternInfo = new VerbPatternInfo();
+        patternInfo.setClassicArguments(vp.getArguments());
+        patternInfo.setClassicAdjuncts(vp.getAdjuncts());
+        patternInfo.setClassicExamplesNumber(vp.getExamplesNumber());
+        return patternInfo;
     }
 
 }

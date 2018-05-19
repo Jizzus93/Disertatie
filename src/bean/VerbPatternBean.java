@@ -12,20 +12,23 @@ import java.util.ArrayList;
 import static org.graphstream.stream.file.FileSinkImages.*;
 
 public class VerbPatternBean {
-    ArrayList<String> arguments = new ArrayList<String>();
-    ArrayList<String> adjuncts = new ArrayList<String>();
+    int id;
+    String form_ro;
+    String form_en;
+    String PWN;
+
+    VerbPatternTypeBean verbPatternType;
+    VerbPatternInfoBean patternInfo;
+
+    ArrayList<String> implicatures = new ArrayList<String>();
+
+
     ArrayList<OccurrenceBean> examples = new ArrayList<OccurrenceBean>();
     int examplesNumber;
     //lista de Occurances
 
 
-    public ArrayList<String> getAdjuncts() {
-        return adjuncts;
-    }
 
-    public ArrayList<String> getArguments() {
-        return arguments;
-    }
 
     public ArrayList<OccurrenceBean> getExamples() {
         return examples;

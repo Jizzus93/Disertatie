@@ -1,9 +1,11 @@
+package utils;
+
+import FileIO.Occurrence;
+import FileIO.ClassicXmlReader;
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
-import org.graphstream.graph.implementations.DefaultGraph;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.stream.file.FileSinkImages;
-import org.graphstream.ui.swingViewer.Viewer;
 
 
 import java.awt.*;
@@ -15,31 +17,100 @@ import static org.graphstream.stream.file.FileSinkImages.*;
 
 public class VerbPattern {
 
-    transient XMLReader xmlFileReader = new XMLReader();
-    ArrayList<String> arguments = new ArrayList<String>();
-    ArrayList<String> adjuncts = new ArrayList<String>();
+    transient ClassicXmlReader xmlFileReader = new ClassicXmlReader();
+
+    int id;
+    String form_ro;
+    String form_en;
+    String PWN;
+
+    VerbPatternType verbPatternType;
+    VerbPatternInfo patternInfo;
+
+    ArrayList<String> implicatures = new ArrayList<String>();
+
     ArrayList<Occurrence> examples = new ArrayList<Occurrence>();
+
     int examplesNumber;
     transient String logs = "";
 
+    public VerbPattern( int id, String form_romainian,String form_english)
+    {
+        this.id = id;
+        this.form_ro = form_romainian;
+        this.form_en = form_english;
+        String PWN = "";
+        verbPatternType = new VerbPatternType();
+        patternInfo = new VerbPatternInfo();
+        examplesNumber = 0;
+    }
 
-    VerbPattern(Occurrence occurrence)
+    public VerbPattern(Occurrence occurrence)
     {
 
         examplesNumber = 0;
         addExample(occurrence);
-        arguments = computeArguments(occurrence);
-        adjuncts = computeAdjuncts(occurrence);
+        patternInfo = new VerbPatternInfo();
 
+    }
+
+    public String getForm_ro() {
+        return form_ro;
+    }
+
+    public void setForm_ro(String form_ro) {
+        this.form_ro = form_ro;
+    }
+
+    public void addLogs(String logs)
+    {
+        this.logs+= logs;
+    }
+    public VerbPatternInfo getPatternInfo() {
+        return patternInfo;
+    }
+
+    public void setPatternInfo(VerbPatternInfo patternInfo) {
+        this.patternInfo = patternInfo;
+    }
+
+    public ArrayList<String> getImplicatures() {
+        return implicatures;
+    }
+
+    public void addImplicature(String implicature)
+    {
+        this.implicatures.add(implicature);
+    }
+
+    public void setImplicatures(ArrayList<String> implicatures) {
+        this.implicatures = implicatures;
+    }
+
+    public VerbPatternType getVerbPatternType() {
+        return verbPatternType;
+    }
+
+    public void setVerbPatternType(VerbPatternType verbPatternType) {
+        this.verbPatternType = verbPatternType;
+    }
+
+    public String getPWN() {
+        return PWN;
+    }
+
+    public void setPWN(String PWN) {
+        this.PWN = PWN;
     }
 
     public ArrayList<String> getArguments()
     {
-        return this.arguments;
+        this.patternInfo.addClassicArgument("c.d");
+        return this.patternInfo.getClassicArguments();
     }
 
     public ArrayList<String> getAdjuncts() {
-        return this.adjuncts;
+        return this.patternInfo.getClassicAdjuncts();
     }
 
     public ArrayList<Occurrence> getExamples() {
@@ -65,7 +136,7 @@ public class VerbPattern {
 
         VerbPattern vp = (VerbPattern) obj;
 
-        for(String str: arguments)
+        for(String str: patternInfo.getClassicArguments())
         {
             //logs += "Looking for " + str + "\n";
             if(!vp.getArguments().contains(str))
@@ -178,12 +249,12 @@ public class VerbPattern {
                 Node currentNode = graphRepresentation.getNode(nodeId);
                 if(addArguments)
                 {
-                    arguments.add(w.getDepRel());
+                    patternInfo.getClassicArguments().add(w.getDepRel());
                 }
 
                 if(addAdjuncts)
                 {
-                    adjuncts.add(w.getDepRel());
+                    patternInfo.getClassicArguments().add(w.getDepRel());
                 }
 
                 Node rootNode = graphRepresentation.getNode("Id" + rootId);

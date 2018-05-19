@@ -1,3 +1,5 @@
+package utils;
+
 import java.util.ArrayList;
 
 public class VerbPatternInfo {
@@ -25,7 +27,7 @@ public class VerbPatternInfo {
     int UDExamplesNumber;
     int semanticExamplesNumber;
 
-    VerbPatternInfo()
+    public VerbPatternInfo()
     {
         this.classicRestrictions = new ArrayList<String>();
         this.UDRestrictions = new ArrayList<String>();
@@ -56,6 +58,11 @@ public class VerbPatternInfo {
         return classicRestrictions;
     }
 
+    public void addClassicRestriction(String restriction)
+    {
+        this.classicRestrictions.add(restriction);
+    }
+
     public void setClassicRestrictions(ArrayList<String> restrictions)
     {
         this.classicRestrictions = restrictions;
@@ -64,6 +71,11 @@ public class VerbPatternInfo {
     public ArrayList<String> getUDRestrictions()
     {
         return UDRestrictions;
+    }
+
+    public void addUDRestriction(String restriction)
+    {
+        this.UDRestrictions.add(restriction);
     }
 
     public void setUDRestrictions(ArrayList<String> restrictions)
@@ -76,6 +88,11 @@ public class VerbPatternInfo {
         return semanticRestrictions;
     }
 
+    public void addSemanticRestriction(String restriction)
+    {
+        this.semanticRestrictions.add(restriction);
+    }
+
     public void setSemanticRestrictions(ArrayList<String> restrictions)
     {
         this.semanticRestrictions = restrictions;
@@ -84,6 +101,11 @@ public class VerbPatternInfo {
     public ArrayList<String> getClassicAdvancedArguments()
     {
         return classicAdvancedArguments;
+    }
+
+    public void addClassicAdvancedArgument(String argument)
+    {
+        this.classicAdvancedArguments.add(argument);
     }
 
     public void setClassicAdvancedArguments(ArrayList<String> arguments)
@@ -96,6 +118,11 @@ public class VerbPatternInfo {
         return classicAdvancedAdjuncts;
     }
 
+    public void addClassicAdvancedAdjunct(String adjunct)
+    {
+        this.classicAdvancedAdjuncts.add(adjunct);
+    }
+
     public void setClassicAdvancedAdjuncts(ArrayList<String> adjuncts)
     {
         this.classicAdvancedAdjuncts = adjuncts;
@@ -104,6 +131,11 @@ public class VerbPatternInfo {
     public ArrayList<String> getUDAdvancedArguments()
     {
         return UDAdvancedArguments;
+    }
+
+    public void addUDAdvancedArgument(String argument)
+    {
+        this.UDAdvancedArguments.add(argument);
     }
 
     public void setUDAdvancedArguments(ArrayList<String> arguments)
@@ -116,6 +148,11 @@ public class VerbPatternInfo {
         return UDAdvancedAdjuncts;
     }
 
+    public void addUDAdvancedAdjunct(String adjunct)
+    {
+        this.UDAdvancedAdjuncts.add(adjunct);
+    }
+
     public void setUDAdvancedAdjuncts(ArrayList<String> adjuncts)
     {
         this.UDAdvancedAdjuncts = adjuncts;
@@ -124,6 +161,11 @@ public class VerbPatternInfo {
     public ArrayList<String> getSemanticAdvancedArguments()
     {
         return semanticAdvancedArguments;
+    }
+
+    public void addSemanticAdvancedArgument(String argument)
+    {
+        this.semanticAdvancedArguments.add(argument);
     }
 
     public void setSemanticAdvancedArguments(ArrayList<String> arguments)
@@ -136,7 +178,12 @@ public class VerbPatternInfo {
         return semanticAdvancedAdjuncts;
     }
 
-    public void setSemanticAdvancedAdjuncts(ArrayList<String> adjuncts)
+    public void addSemanticAdvancedAdjunct(String adjunct)
+    {
+        this.semanticAdvancedAdjuncts.add(adjunct);
+    }
+
+    public void setSemanticAdvancedAdjunct(ArrayList<String> adjuncts)
     {
         this.semanticAdvancedAdjuncts = adjuncts;
     }
@@ -144,6 +191,11 @@ public class VerbPatternInfo {
     public ArrayList<String> getClassicArguments()
     {
         return classicArguments;
+    }
+
+    public void addClassicArgument(String argument)
+    {
+        this.classicArguments.add(argument);
     }
 
     public void setClassicArguments(ArrayList<String> arguments)
@@ -154,6 +206,11 @@ public class VerbPatternInfo {
     public ArrayList<String> getClassicAdjuncts()
     {
         return classicAdjuncts;
+    }
+
+    public void addClassicAdjunct(String adjunct)
+    {
+        this.classicAdjuncts.add(adjunct);
     }
 
     public void setClassicAdjuncts(ArrayList<String> adjuncts)
@@ -177,6 +234,11 @@ public class VerbPatternInfo {
         return UDArguments;
     }
 
+    public void addUDArgument(String argument)
+    {
+        this.UDArguments.add(argument);
+    }
+
     public void setUDArguments(ArrayList<String> arguments)
     {
         this.UDArguments = arguments;
@@ -185,6 +247,11 @@ public class VerbPatternInfo {
     public ArrayList<String> getUDAdjuncts()
     {
         return UDAdjuncts;
+    }
+
+    public void addUDAdjunct(String adjunct)
+    {
+        this.UDAdjuncts.add(adjunct);
     }
 
     public void setUDAdjuncts(ArrayList<String> adjuncts)
@@ -213,6 +280,11 @@ public class VerbPatternInfo {
         this.semanticArguments = arguments;
     }
 
+    public void addSemanticArgument(String argument)
+    {
+        this.semanticArguments.add(argument);
+    }
+
     public ArrayList<String> getSemanticAdjuncts()
     {
         return semanticAdjuncts;
@@ -222,6 +294,12 @@ public class VerbPatternInfo {
     {
         this.semanticAdjuncts = adjuncts;
     }
+
+    public void addSemanticAdjunct(String adjunct)
+    {
+        this.semanticAdjuncts.add(adjunct);
+    }
+
 
     public int getSemanticExamplesNumber()
     {

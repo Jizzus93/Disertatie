@@ -119,7 +119,7 @@
 
 
                 out.println("<h3>Statistics</h3>");
-                out.println("<p>Occurrence Rate: </p>");
+                out.println("<p>FileIO.Occurrence Rate: </p>");
 
             %>
         </div>

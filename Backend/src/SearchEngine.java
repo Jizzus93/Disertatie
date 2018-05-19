@@ -1,4 +1,8 @@
+import FileIO.Occurrence;
+import FileIO.ClassicXmlReader;
+import FileIO.PatternXmlReader;
 import com.google.gson.Gson;
+import utils.*;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -14,6 +18,7 @@ import java.util.HashMap;
 @Path("/searchEngine")
 public class SearchEngine {
     private HashMap<String, VerbEntity> searchMap = new HashMap<String , VerbEntity>();
+    private HashMap<String, VerbEntity> patternMap = new HashMap<String, VerbEntity>();
     private boolean isInitialized = false;
 
 
@@ -30,16 +35,18 @@ public class SearchEngine {
         }
         Gson gson  = new Gson();
 
-        if(searchMap.containsKey(word))
+        if(patternMap.containsKey(word))
         {
 
-            VerbEntity ve = searchMap.get(word);
+            VerbEntity ve = patternMap.get(word);
+            if(ve != null)
+            {
             return gson.toJson(ve);
-
+            }
         }
         else
         {
-            result += "The word you are searching for is not in our database!!!" + searchMap.size();
+            result += "The word you are searching for is not in our database!!!" + patternMap.size();
         }
 
 
@@ -72,14 +79,29 @@ public class SearchEngine {
         }
         Gson gson  = new Gson();
 
-        if(searchMap.containsKey(verb)) {
+        if(patternMap.containsKey(verb)) {
 
-            VerbEntity ve = searchMap.get(verb);
-            VerbPatternInfo exampleInfo = ve.getPatternExampleInfo(patternId);
-            return gson.toJson(exampleInfo);
+            VerbEntity ve = patternMap.get(verb);
+
+            return gson.toJson(ve.getPatternInfo(patternId));
         }
 
         return result;
+    }
+
+    @GET
+    @Path("/getPattern")
+    @Produces("application/json")
+    public String getPattern(@QueryParam("verbId") int verbId, @QueryParam("patternId") int patternId)
+    {
+        String result = "";
+        PatternXmlReader patternReader = new PatternXmlReader();
+
+
+        Gson gson  = new Gson();
+
+        VerbPattern vp = patternReader.getPattern(verbId, patternId);
+        return gson.toJson(vp);
     }
 
 
@@ -91,7 +113,28 @@ public class SearchEngine {
     private String initialize()
     {
         String response = "";
-        XMLReader xmlFileReader = new XMLReader();
+
+        PatternXmlReader patternXmlReader = new PatternXmlReader();
+        for(File f: new File("__PatternBank/").listFiles())
+        {
+            int pos = f.getName().lastIndexOf(".");
+            int verbId =Integer.parseInt(f.getName().substring(1,pos));
+
+
+            VerbEntity verbEntity = patternXmlReader.readXMLFile(verbId);
+
+            patternMap.put(verbEntity.getForm().toLowerCase(), verbEntity);
+
+        }
+
+        isInitialized = true;
+        return response;
+    }
+
+    private String initialize2()
+    {
+        String response = "";
+        ClassicXmlReader xmlFileReader = new ClassicXmlReader();
         ArrayList<Sentence> sentences = xmlFileReader.readXMLFile("__TreeBank/08_PopReg.xml");
 
 
@@ -119,6 +162,7 @@ public class SearchEngine {
         isInitialized = true;
         return response;
     }
+
 
     private ArrayList<Word> getVerbList(Sentence aSentence)
     {

@@ -1,3 +1,5 @@
+package utils;
+
 import java.util.ArrayList;
 
 public class Sentence {
@@ -7,10 +9,10 @@ public class Sentence {
     private String mDate;
     private ArrayList<Word> mWordList = new ArrayList<Word>();
 
-    Sentence()
+    public Sentence()
     {}
 
-    Sentence(String a_ID, String a_Parser, String a_User, String a_Date, ArrayList<Word> a_List)
+    public Sentence(String a_ID, String a_Parser, String a_User, String a_Date, ArrayList<Word> a_List)
     {
         this.mID = a_ID;
         this.mParser = a_Parser;
@@ -73,7 +75,7 @@ public class Sentence {
 
     public String toString()
     {
-        String response = "Sentence: \n" + "Id= " + this.mID + " Parser: " + mParser + " User: " + mUser + " Date: " + mDate + "\nWordList: \n";
+        String response = "utils.Sentence: \n" + "Id= " + this.mID + " Parser: " + mParser + " User: " + mUser + " Date: " + mDate + "\nWordList: \n";
         for(Word w: mWordList)
         {
             response += w.toString() + "\n";

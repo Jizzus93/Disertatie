@@ -1,12 +1,49 @@
+package utils;
+
+import FileIO.Occurrence;
+
 import java.util.ArrayList;
 
 public class VerbEntity {
+    int id;
+    String form;
     ArrayList<VerbPattern> patterns = new ArrayList<VerbPattern>();
     transient String logs;
 
-    VerbEntity(Occurrence occurrence)
+    public VerbEntity(int id, String form){
+        this.id = id;
+        this.form = form;
+    }
+
+    public VerbEntity(Occurrence occurrence)
     {
+        int id = 0;
+        String form = "bug";
         addOccurrence(occurrence);
+    }
+
+    public VerbPatternInfo getPatternInfo(int patternId)
+    {
+        VerbPatternInfo verbPatternInfo = new VerbPatternInfo();
+        if(patternId <= patterns.size())
+        {
+            verbPatternInfo = patterns.get(patternId-1).getPatternInfo();
+        }
+
+        return verbPatternInfo;
+    }
+
+    public void addPattern(VerbPattern aPattern)
+    {
+        this.patterns.add(aPattern);
+    }
+
+    public String getForm() {
+        return form;
+    }
+
+    public void setForm(String form) {
+        this.form = form;
     }
 
     public void addOccurrence(Occurrence occurrence)

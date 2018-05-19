@@ -1,9 +1,11 @@
+package FileIO;
+
 public class Occurrence {
     private String mTreeBankID;
     private String mSentenceID;
     private int mWordID;
 
-    Occurrence(String aTreeBankId, String aSentenceID,int aWordID)
+    public Occurrence(String aTreeBankId, String aSentenceID,int aWordID)
     {
         this.mTreeBankID = aTreeBankId;
         this.mSentenceID = aSentenceID;

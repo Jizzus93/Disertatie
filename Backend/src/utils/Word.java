@@ -1,3 +1,5 @@
+package utils;
+
 import org.graphstream.graph.Node;
 
 import javax.ws.rs.GET;
@@ -7,7 +9,7 @@ import javax.ws.rs.QueryParam;
 import java.util.List;
 
 // The Java class will be hosted at the URI path "/word"
-@Path("/word")
+
 public class Word{
     private int mID;
     private String mForm;
@@ -108,7 +110,7 @@ public class Word{
 
     public String toString()
     {
-        return "Word ID: " + mID + " Form: " + mForm + " Lemma: " + mLemma + " POSTag: " + mPOSTag + " Head: " + mHead + " Chunk: " + mChunk + " DepRel: " + mDepRel;
+        return "utils.Word ID: " + mID + " Form: " + mForm + " Lemma: " + mLemma + " POSTag: " + mPOSTag + " Head: " + mHead + " Chunk: " + mChunk + " DepRel: " + mDepRel;
     }
 
 

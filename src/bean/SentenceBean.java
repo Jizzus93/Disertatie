@@ -80,7 +80,7 @@ public class SentenceBean {
 
     public String toString()
     {
-        String response = "Sentence: \n" + "Id= " + this.mID + " Parser: " + mParser + " User: " + mUser + " Date: " + mDate + "\nWordList: \n";
+        String response = "utils.Sentence: \n" + "Id= " + this.mID + " Parser: " + mParser + " User: " + mUser + " Date: " + mDate + "\nWordList: \n";
         for(WordBean w: mWordList)
         {
             response += w.toString() + "\n";

@@ -22,7 +22,7 @@
     String searchedVerb = request.getParameter("verb");
     int patternId = Integer.parseInt(request.getParameter("patternId"));
 
-    URL url = new URL("http://localhost:8080/Backend_war_exploded/searchEngine/getPatternInfo?verb="+ searchedVerb+"&patternId="+ patternId);
+    URL url = new URL("http://localhost:8080/Backend_war_exploded/searchEngine/getPatternInfo?verb="+ searchedVerb+"&patternId="+ patternId+1);
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     conn.setRequestMethod("GET");
     conn.setRequestProperty("Accept", "application/json");

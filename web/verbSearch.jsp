@@ -154,7 +154,7 @@
                                 out.println("<p>" + examples + "</p>");
 
                                 out.println("<h4>Statistics</h4>");
-                                out.println("<p>Occurrence Rate: </p>");
+                                out.println("<p>FileIO.Occurrence Rate: </p>");
                                 out.println("<form action=\"patternExpand.jsp\" method=\"get\" align=\"right\">");
                                 out.println("<input type=\"hidden\" name=\"verb\" value=\""+searchedVerb+"\">");
                                 out.println("<input type=\"hidden\" name=\"patternId\" value=\""+i+"\">");

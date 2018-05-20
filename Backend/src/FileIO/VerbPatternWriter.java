@@ -37,6 +37,6 @@ public class VerbPatternWriter {
 
         VerbPattern inputPattern = gson.fromJson(input, VerbPattern.class);
         PatternXmlWriter xmlWriter = new PatternXmlWriter();
-        xmlWriter.writePatternToXMLFile(inputPattern,inputPattern.getVerb_id());
+        xmlWriter.writePatternToXMLFile(inputPattern);
     }
 }

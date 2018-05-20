@@ -96,55 +96,63 @@
         </div>
 
 
-        <div class="tab-content">
-            <div id="layer1" class="tab-pane fade in active">
-                <div class="row">
-                    <div class="tab-content col-md-8 ">
 
-                        <%
-                            for(int i= 0; i<verbEntitiy.getPatterns().size(); i++)
-                            {
-                                if(i==0)
-                                {
-                                    out.println("<div id=\"preview_pattern"+(i+1)+"\" class=\"tab-pane fade in active\">");
-                                }
-                                else
-                                {
-                                    out.println("<div id=\"preview_pattern"+(i+1)+"\" class=\"tab-pane fade\">");
-                                }
-                                String getValue = "?verb="+searchedVerb+"&patternId="+i;
-                                //<jsp:include page="patternInfo.jsp?verb=arde&patternId=0" flush="true"></jsp:include>
-                                //http://localhost:8080/JSPPlayground3_war_exploded/
-                                out.println("<iframe src=\"patternInfo.jsp"+getValue+"\" width=\"100%\" height=\"60%\"></iframe>");
+        <div class="row">
+            <div class="tab-content col-md-8 ">
 
-                                out.println("</div>");
+                <%
+                    for(int i= 0; i<verbEntitiy.getPatterns().size(); i++)
+                    {
+                        if(i==0)
+                        {
+                            out.println("<div id=\"preview_pattern"+(i+1)+"\" class=\"tab-pane fade in active\">");
+                        }
+                        else
+                        {
+                            out.println("<div id=\"preview_pattern"+(i+1)+"\" class=\"tab-pane fade\">");
+                        }
+                        String getValue = "?verbId="+verbEntitiy.getId()+"&patternId="+ (i+1) +"&add=false";
+                        //<jsp:include page="patternInfo.jsp?verb=arde&patternId=0" flush="true"></jsp:include>
+                        //http://localhost:8080/JSPPlayground3_war_exploded/
+                        out.println("<iframe src=\"patternInfo.jsp"+getValue+"\" width=\"100%\" height=\"60%\"></iframe>");
 
-                            }
-                        %>
+                        out.println("</div>");
 
-                    </div>
-                    <input type="hidden" name="word" value="searchedWord">
-                    <div class="col-md-4">
-                        <ul class="nav nav-pills nav-stacked">
-                            <%
-                                if(verbEntitiy.getPatterns().size()!=0)
-                                {
-                                    out.println("<li class=\"active\"><a data-toggle=\"tab\" href=\"#preview_pattern1\">Pattern 1</a></li>");
-                                }
-
-                                for(int i= 1; i<verbEntitiy.getPatterns().size(); i++)
-                                {
-                                    out.println("<li><a data-toggle=\"tab\" href=\"#preview_pattern" + (i+1) + "\">Pattern " + (i+1) + "</a></li>");
-                                }
-                            %>
-                        </ul>
-                    </div>
-
-                    <div class="clearfix visible-lg"></div>
+                    }
+                %>
+                <div id="add_pattern" class="tab-pane fade<%=(verbEntitiy.getPatterns().size()==0)?"in active":""%>">
+                    <iframe src="patternInfo.jsp?verbId=<%=verbEntitiy.getId()%>&patternId=99999999&add=true" width=\"100%\" height=\"60%\"></iframe>
                 </div>
+
+            </div>
+            <input type="hidden" name="word" value="searchedWord">
+            <div class="col-md-4">
+                <ul class="nav nav-pills nav-stacked">
+
+                    <%
+                        if(verbEntitiy.getPatterns().size()!=0)
+                        {
+                            out.println("<li ><a data-toggle=\"tab\" href=\"#add_pattern\">Add Pattern</a></li>");
+                            out.println("<li class=\"active\"><a data-toggle=\"tab\" href=\"#preview_pattern1\">Pattern 1</a></li>");
+                        }
+                        else
+                        {
+                            out.println("<li class=\"active\"><a data-toggle=\"tab\" href=\"#add_pattern\">Add Pattern</a></li>");
+                        }
+
+                        for(int i= 1; i<verbEntitiy.getPatterns().size(); i++)
+                        {
+                            out.println("<li><a data-toggle=\"tab\" href=\"#preview_pattern" + (i+1) + "\">Pattern " + (i+1) + "</a></li>");
+                        }
+                    %>
+                </ul>
             </div>
 
+            <div class="clearfix visible-lg"></div>
         </div>
+
+
+
 
     </div>
 

@@ -3,6 +3,7 @@ import FileIO.ClassicXmlReader;
 import FileIO.PatternXmlReader;
 import FileIO.PatternXmlWriter;
 import com.google.gson.Gson;
+import org.util.set.Array;
 import utils.*;
 
 import javax.ws.rs.GET;
@@ -18,9 +19,10 @@ import java.util.HashMap;
 
 @Path("/searchEngine")
 public class SearchEngine {
-    private HashMap<String, VerbEntity> searchMap = new HashMap<String , VerbEntity>();
+    private HashMap<String, ArrayList<Occurrence>> searchMap = new HashMap<String , ArrayList<Occurrence>>();
     private HashMap<String, VerbEntity> patternMap = new HashMap<String, VerbEntity>();
     private boolean isInitialized = false;
+    private boolean isExampleSearchInitialized = false;
 
 
     @GET
@@ -30,6 +32,7 @@ public class SearchEngine {
     public String search(@QueryParam("word") String word)
     {
         String result= "";
+        VerbEntity ve = null;
         if(!isInitialized)
         {
             result += initialize();
@@ -39,19 +42,123 @@ public class SearchEngine {
         if(patternMap.containsKey(word))
         {
 
-            VerbEntity ve = patternMap.get(word);
-            if(ve != null)
+            ve = patternMap.get(word);
+
+        }
+        else
+        {
+            ve = new VerbEntity(getNextVerbId(), word);
+            patternMap.put(word,ve);
+        }
+
+
+        return gson.toJson(ve);
+    }
+
+    @GET
+    @Path("/getVerbOccurrences")
+    // The Java method will produce content identified by the MIME Media type "text/plain"
+    @Produces("application/json")
+    public String getVerbOccurrences(@QueryParam("verb") String verb)
+    {
+        String result= "";
+        if(!isExampleSearchInitialized)
+        {
+            result += initializeExampleSearch();
+        }
+        Gson gson  = new Gson();
+
+        if(searchMap.containsKey(verb))
+        {
+
+            ArrayList<Occurrence> occurrences = searchMap.get(verb);
+            if(occurrences != null)
             {
-            return gson.toJson(ve);
+                return gson.toJson(occurrences);
             }
         }
         else
         {
-            result += "The word you are searching for is not in our database!!!" + patternMap.size();
+            result += "The word you are searching for is not in our database!!!" + searchMap.size();
         }
 
 
         return result;
+    }
+
+    @GET
+    @Path("/getRoPAASVerbs")
+    // The Java method will produce content identified by the MIME Media type "text/plain"
+    @Produces("application/json")
+    public String getRoPAASVerbs()
+    {
+        String result= "";
+
+        if(!isInitialized)
+        {
+            initialize();
+        }
+
+        ArrayList<String> RoPAASVerbs = new ArrayList<String>();
+        for(String s: patternMap.keySet())
+        {
+            RoPAASVerbs.add(s);
+        }
+
+        Gson gson = new Gson();
+
+
+        return gson.toJson(RoPAASVerbs);
+    }
+
+
+    @GET
+    @Path("/getDeltaTreebankVerbs")
+    // The Java method will produce content identified by the MIME Media type "text/plain"
+    @Produces("application/json")
+    public String getDeltaTreebankVerbs()
+    {
+        String result= "";
+
+        if(!isExampleSearchInitialized)
+        {
+            initializeExampleSearch();
+        }
+
+
+
+        ArrayList<String> treebankDeltaVerbs = new ArrayList<String>();
+
+        for(String s: searchMap.keySet())
+        {
+            if(!patternMap.containsKey(s))
+            {
+                treebankDeltaVerbs.add(s);
+            }
+        }
+
+        Gson gson = new Gson();
+
+
+        return gson.toJson(treebankDeltaVerbs);
+    }
+
+    @GET
+    @Path("/getExample")
+    // The Java method will produce content identified by the MIME Media type "text/plain"
+    @Produces("application/json")
+    public String getExample(@QueryParam("treeBankId") String treeBankId, @QueryParam("sentenceId") String sentenceId, @QueryParam("wordId") String wordId)
+    {
+        String result= "";
+
+        ClassicXmlReader xmlFileReader = new ClassicXmlReader();
+
+        Sentence sentence = xmlFileReader.getSentence(new Occurrence(treeBankId,sentenceId,Integer.parseInt(wordId)));
+
+        Gson gson = new Gson();
+
+
+        return gson.toJson(sentence);
     }
 
     @GET
@@ -101,7 +208,12 @@ public class SearchEngine {
 
         Gson gson  = new Gson();
 
-        VerbPattern vp = patternReader.getPattern(verbId, patternId);
+
+        VerbPattern vp = null;
+        if(verbId != 0)
+        {
+            vp =  patternReader.getPattern(verbId, patternId);
+        }
 
         return gson.toJson(vp);
     }
@@ -133,7 +245,7 @@ public class SearchEngine {
         return response;
     }
 
-    private String initialize2()
+    private String initializeExampleSearch()
     {
         String response = "";
         ClassicXmlReader xmlFileReader = new ClassicXmlReader();
@@ -150,18 +262,19 @@ public class SearchEngine {
                 if(!searchMap.containsKey(verb.getLemma()))
                 {
 
-                    VerbEntity verbEntity = new VerbEntity(currentOccurrence);
-                    searchMap.put(verb.getLemma(), verbEntity);
+                    ArrayList<Occurrence> occurrences = new ArrayList<Occurrence>();
+                    occurrences.add(currentOccurrence);
+                    searchMap.put(verb.getLemma(), occurrences);
 
                 }
                 else
                 {
-                    searchMap.get(verb.getLemma()).addOccurrence(currentOccurrence);
+                    searchMap.get(verb.getLemma()).add(currentOccurrence);
                 }
             }
         }
 
-        isInitialized = true;
+        isExampleSearchInitialized = true;
         return response;
     }
 
@@ -179,5 +292,10 @@ public class SearchEngine {
         }
 
         return verbList;
+    }
+
+    private int getNextVerbId()
+    {
+        return new File("__PatternBank/").listFiles().length + 1;
     }
 }

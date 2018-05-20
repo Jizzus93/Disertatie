@@ -1,3 +1,4 @@
+import FileIO.VerbPatternWriter;
 import utils.Word;
 
 import javax.ws.rs.ApplicationPath;
@@ -14,7 +15,7 @@ public class MyApplication extends Application{
     public Set<Class<?>> getClasses() {
         HashSet h = new HashSet<Class<?>>();
         h.add( HelloWorld.class );
-        h.add( Word.class);
+        h.add( VerbPatternWriter.class);
         h.add( SearchEngine.class);
         return h;
     }

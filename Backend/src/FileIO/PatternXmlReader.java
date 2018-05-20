@@ -48,7 +48,7 @@ public class PatternXmlReader {
                         String formRo = pattern.getAttribute("form_ro");
                         String formEn = pattern.getAttribute("form_en");
 
-                        VerbPattern returnPattern =  new VerbPattern(patternId, formRo, formEn);
+                        VerbPattern returnPattern =  new VerbPattern(verbId,patternId, formRo, formEn);
 
                         if(pattern.hasAttribute("PWN"))
                         {
@@ -147,7 +147,7 @@ public class PatternXmlReader {
                         String formRo = pattern.getAttribute("form_ro");
                         String formEn = pattern.getAttribute("form_en");
 
-                        returnPattern =  new VerbPattern(patternId, formRo, formEn);
+                        returnPattern =  new VerbPattern(verbId, patternId, formRo, formEn);
 
                         if(pattern.hasAttribute("PWN"))
                         {

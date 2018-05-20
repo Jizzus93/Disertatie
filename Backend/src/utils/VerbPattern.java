@@ -6,6 +6,8 @@ import org.graphstream.graph.Edge;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
 import org.graphstream.stream.file.FileSinkImages;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 
 import java.awt.*;
@@ -19,6 +21,7 @@ public class VerbPattern {
 
     transient ClassicXmlReader xmlFileReader = new ClassicXmlReader();
 
+    int verb_id;
     int id;
     String form_ro;
     String form_en;
@@ -34,8 +37,9 @@ public class VerbPattern {
     int examplesNumber;
     transient String logs = "";
 
-    public VerbPattern( int id, String form_romainian,String form_english)
+    public VerbPattern(int verb_id, int id, String form_romainian,String form_english)
     {
+        this.verb_id = verb_id;
         this.id = id;
         this.form_ro = form_romainian;
         this.form_en = form_english;
@@ -52,6 +56,51 @@ public class VerbPattern {
         addExample(occurrence);
         patternInfo = new VerbPatternInfo();
 
+    }
+
+    public int getVerb_id() {
+        return verb_id;
+    }
+
+    public void setVerb_id(int verb_id) {
+        this.verb_id = verb_id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Element toXMLElement(Document doc)
+    {
+        Element rootPattern = doc.createElement("pattern");
+
+        rootPattern.setAttribute("id", id + "");
+        rootPattern.setAttribute("form_ro", form_ro);
+        rootPattern.setAttribute("form_en", form_en);
+        rootPattern.setAttribute("PWN", PWN);
+
+        rootPattern.appendChild(verbPatternType.toXMLElement(doc));
+
+        for(int i=0; i< examples.size(); i++)
+        {
+            rootPattern.appendChild(examples.get(i).toXMLElement(doc, i+1));
+        }
+
+        rootPattern.appendChild(patternInfo.toXMLElement(doc));
+
+        for(int i=0;i<implicatures.size();i++)
+        {
+            Element implicature = doc.createElement("implicature");
+            implicature.setAttribute("id", (i+1)+"");
+            implicature.appendChild(doc.createTextNode(implicatures.get(i)));
+            rootPattern.appendChild(implicature);
+        }
+
+        return rootPattern;
     }
 
     public String getForm_ro() {

@@ -48,7 +48,7 @@
 %>
 
 
-<form>
+
     <%
         boolean isAuthenticated = true; //TODO: IMPLEMENT USERS
         String restrictions = "";
@@ -89,28 +89,97 @@
             isHidden = "hidden";
         }
     %>
-        <h2>Dependencies:</h2>
-        <div class="form-group-row">
-            <label for="restrictions" class="col-sm-2 col-form-label">Restrictions:</label>
-            <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="restrictions" value="<%=restrictions%>">
+    <div class="tab-content">
+        <div id="layer1" class="tab-pane fade in active">
+
+            <form>
+                <h2>Dependencies:</h2>
+                <div class="form-group-row">
+                    <label for="restrictions" class="col-sm-2 col-form-label">Restrictions:</label>
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="restrictions" value="<%=restrictions%>">
+                </div>
+                <div class="form-group-row">
+                    <label for="advanced_arguments" class="col-sm-2 col-form-label">Advanced Arguments:</label>
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="advanced_arguments" value="<%=advancedArguments%>">
+                </div>
+                <div class="form-group-row">
+                    <label for="advanced_adjuncts" class="col-sm-2 col-form-label">Advanced Adjuncts:</label>
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="advanced_adjuncts" value="<%=advancedAdjuncts%>">
+                </div>
+                <div class="form-group-row">
+                    <label for="arguments" class="col-sm-2 col-form-label">Arguments:</label>
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="arguments" value="<%=arguments%>">
+                </div>
+                <div class="form-group-row">
+                    <label for="adjuncts" class="col-sm-2 col-form-label">Adjuncts:</label>
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="adjuncts" value="<%=adjuncts%>">
+                </div>
+                <button type="button" <%=isHidden%> >Save Changes</button>
+            </form>
         </div>
-        <div class="form-group-row">
-            <label for="advanced_arguments" class="col-sm-2 col-form-label">Advanced Arguments:</label>
-            <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="advanced_arguments" value="<%=advancedArguments%>">
+
+        <div id="layer2" class="tab-pane fade">
+
+            <form>
+                <h2>Dependencies:</h2>
+                <div class="form-group-row">
+                    <label for="restrictions" class="col-sm-2 col-form-label">Restrictions:</label>
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="restrictions" value="<%=restrictions%>">
+                </div>
+                <div class="form-group-row">
+                    <label for="advanced_arguments" class="col-sm-2 col-form-label">Advanced Arguments:</label>
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="advanced_arguments" value="<%=advancedArguments%>">
+                </div>
+                <div class="form-group-row">
+                    <label for="advanced_adjuncts" class="col-sm-2 col-form-label">Advanced Adjuncts:</label>
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="advanced_adjuncts" value="<%=advancedAdjuncts%>">
+                </div>
+                <div class="form-group-row">
+                    <label for="arguments" class="col-sm-2 col-form-label">Arguments:</label>
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="arguments" value="<%=arguments%>">
+                </div>
+                <div class="form-group-row">
+                    <label for="adjuncts" class="col-sm-2 col-form-label">Adjuncts:</label>
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="adjuncts" value="<%=adjuncts%>">
+                </div>
+                <button type="button" <%=isHidden%> >Save Changes</button>
+            </form>
         </div>
-        <div class="form-group-row">
-            <label for="advanced_adjuncts" class="col-sm-2 col-form-label">Advanced Adjuncts:</label>
-            <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="advanced_adjuncts" value="<%=advancedAdjuncts%>">
+
+        <div id="layer3" class="tab-pane fade">
+
+            <form>
+                <h2>Dependencies:</h2>
+                <div class="form-group-row">
+                    <label for="restrictions" class="col-sm-2 col-form-label">Restrictions:</label>
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="restrictions" value="<%=restrictions%>">
+                </div>
+                <div class="form-group-row">
+                    <label for="advanced_arguments" class="col-sm-2 col-form-label">Advanced Arguments:</label>
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="advanced_arguments" value="<%=advancedArguments%>">
+                </div>
+                <div class="form-group-row">
+                    <label for="advanced_adjuncts" class="col-sm-2 col-form-label">Advanced Adjuncts:</label>
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="advanced_adjuncts" value="<%=advancedAdjuncts%>">
+                </div>
+                <div class="form-group-row">
+                    <label for="arguments" class="col-sm-2 col-form-label">Arguments:</label>
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="arguments" value="<%=arguments%>">
+                </div>
+                <div class="form-group-row">
+                    <label for="adjuncts" class="col-sm-2 col-form-label">Adjuncts:</label>
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="adjuncts" value="<%=adjuncts%>">
+                </div>
+                <button type="button" <%=isHidden%> >Save Changes</button>
+            </form>
         </div>
-        <div class="form-group-row">
-            <label for="arguments" class="col-sm-2 col-form-label">Arguments:</label>
-            <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="arguments" value="<%=arguments%>">
-        </div>
-        <div class="form-group-row">
-            <label for="adjuncts" class="col-sm-2 col-form-label">Adjuncts:</label>
-            <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="adjuncts" value="<%=adjuncts%>">
-        </div>
-        <button type="button" <%=isHidden%> >Save Changes</button>
-    </form>
+
+    </div>
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#layer1">Layer1<br>Classical<br>Syntactic</a></li>
+        <li><a data-toggle="tab" href="#layer2">Layer2<br>UD<br>Syntactic</a></li>
+        <li><a data-toggle="tab" href="#layer3"><br>Layer3<br>Semantic</a></li>
+    </ul>
 </body>
 </html>

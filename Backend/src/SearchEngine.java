@@ -1,6 +1,7 @@
 import FileIO.Occurrence;
 import FileIO.ClassicXmlReader;
 import FileIO.PatternXmlReader;
+import FileIO.PatternXmlWriter;
 import com.google.gson.Gson;
 import utils.*;
 
@@ -101,6 +102,7 @@ public class SearchEngine {
         Gson gson  = new Gson();
 
         VerbPattern vp = patternReader.getPattern(verbId, patternId);
+
         return gson.toJson(vp);
     }
 

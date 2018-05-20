@@ -1,5 +1,8 @@
 package utils;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.util.ArrayList;
 
 public class VerbPatternInfo {
@@ -50,6 +53,112 @@ public class VerbPatternInfo {
         this.classicExamplesNumber = 0;
         this.UDExamplesNumber = 0;
         this.semanticExamplesNumber = 0;
+    }
+
+    public Element toXMLElement(Document doc)
+    {
+        Element dependenciesRoot = doc.createElement("dependencies");
+
+
+
+        //creating restrictions
+        Element restrictions = doc.createElement("restrictions");
+
+        for(int i=0; i<classicRestrictions.size(); i++)
+        {
+            restrictions.setAttribute("classic_"+ (i+1), classicRestrictions.get(i));
+        }
+
+        for(int i=0; i<UDRestrictions.size(); i++)
+        {
+            restrictions.setAttribute("UD_"+ (i+1), UDRestrictions.get(i));
+        }
+
+        for(int i=0; i<semanticRestrictions.size(); i++)
+        {
+            restrictions.setAttribute("semantic_"+ (i+1), UDRestrictions.get(i));
+        }
+
+        dependenciesRoot.appendChild(restrictions);
+
+        //creating advanced_arguments
+        Element advanced_arguments = doc.createElement("advanced_arguments");
+        for(int i=0; i<classicAdvancedArguments.size(); i++)
+        {
+            advanced_arguments.setAttribute("type_classic_"+ (i+1), classicAdvancedArguments.get(i));
+        }
+
+        for(int i=0; i<UDAdvancedArguments.size(); i++)
+        {
+            advanced_arguments.setAttribute("type_UD_"+ (i+1), UDAdvancedArguments.get(i));
+        }
+
+        for(int i=0; i<semanticAdvancedArguments.size(); i++)
+        {
+            advanced_arguments.setAttribute("type_semantic_"+ (i+1), semanticAdvancedArguments.get(i));
+        }
+
+        dependenciesRoot.appendChild(advanced_arguments);
+
+        //creating advanced_arguments
+        Element advanced_adjuncts = doc.createElement("advanced_adjuncts");
+        for(int i=0; i<classicAdvancedAdjuncts.size(); i++)
+        {
+            advanced_adjuncts.setAttribute("type_classic_"+ (i+1), classicAdvancedAdjuncts.get(i));
+        }
+
+        for(int i=0; i<UDAdvancedAdjuncts.size(); i++)
+        {
+            advanced_adjuncts.setAttribute("type_UD_"+ (i+1), UDAdvancedAdjuncts.get(i));
+        }
+
+        for(int i=0; i<semanticAdvancedAdjuncts.size(); i++)
+        {
+            advanced_adjuncts.setAttribute("type_semantic_"+ (i+1), semanticAdvancedAdjuncts.get(i));
+        }
+
+        dependenciesRoot.appendChild(advanced_adjuncts);
+
+
+        //creating arguments
+        Element arguments = doc.createElement("arguments");
+        for(int i=0; i<classicArguments.size(); i++)
+        {
+            arguments.setAttribute("type_classic_"+ (i+1), classicArguments.get(i));
+        }
+
+        for(int i=0; i<UDArguments.size(); i++)
+        {
+            arguments.setAttribute("type_UD_"+ (i+1), UDArguments.get(i));
+        }
+
+        for(int i=0; i<semanticArguments.size(); i++)
+        {
+            arguments.setAttribute("type_semantic_"+ (i+1), semanticArguments.get(i));
+        }
+
+        dependenciesRoot.appendChild(arguments);
+
+        //creating arguments
+        Element adjuncts = doc.createElement("adjuncts");
+        for(int i=0; i<classicAdjuncts.size(); i++)
+        {
+            adjuncts.setAttribute("type_classic_"+ (i+1), classicAdjuncts.get(i));
+        }
+
+        for(int i=0; i<UDAdjuncts.size(); i++)
+        {
+            adjuncts.setAttribute("type_UD_"+ (i+1), UDAdjuncts.get(i));
+        }
+
+        for(int i=0; i<semanticAdjuncts.size(); i++)
+        {
+            adjuncts.setAttribute("type_semantic_"+ (i+1), semanticAdjuncts.get(i));
+        }
+
+        dependenciesRoot.appendChild(adjuncts);
+
+        return dependenciesRoot;
     }
 
 

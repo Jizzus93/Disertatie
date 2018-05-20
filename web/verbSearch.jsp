@@ -116,52 +116,7 @@
                                 //<jsp:include page="patternInfo.jsp?verb=arde&patternId=0" flush="true"></jsp:include>
                                 //http://localhost:8080/JSPPlayground3_war_exploded/
                                 out.println("<iframe src=\"patternInfo.jsp"+getValue+"\" width=\"100%\" height=\"60%\"></iframe>");
-                        %>
 
-                        <%
-
-                                /*
-                                out.println("<h4>Preview</h4>");
-                                String arguments = "";
-                                for(String s : verbEntitiy.getPatterns().get(i).getArguments())
-                                {
-                                    arguments += s + " ";
-                                }
-                                out.println("<p>Arguments: " + arguments + "</p>");
-
-                                String adjuncts = "";
-                                for(String s : verbEntitiy.getPatterns().get(i).getAdjuncts())
-                                {
-                                    adjuncts += s + " ";
-                                }
-                                out.println("<p>Adjuncts: " + adjuncts + "</p>");
-
-                                out.println("<h4>Examples</h4>");
-                                String examples = "";
-                                for(int j=0; j< verbEntitiy.getPatterns().get(i).getExamplesNumber(); j++)
-                                {
-                                    examples += "<a href=\"patternExpand.jsp?verb="+searchedVerb+"&patternId="+i+"&exampleId="+j+"\">" + (j+1) + "</a> ";
-                                    if(j == 12)
-                                    {
-                                        examples += "<br>";
-                                    }
-                                    if(j>20)
-                                    {
-                                        examples += "<span>...</span>";
-                                        break;
-                                    }
-                                }
-                                out.println("<p>" + examples + "</p>");
-
-                                out.println("<h4>Statistics</h4>");
-                                out.println("<p>FileIO.Occurrence Rate: </p>");
-                                out.println("<form action=\"patternExpand.jsp\" method=\"get\" align=\"right\">");
-                                out.println("<input type=\"hidden\" name=\"verb\" value=\""+searchedVerb+"\">");
-                                out.println("<input type=\"hidden\" name=\"patternId\" value=\""+i+"\">");
-                                out.println("<input type=\"hidden\" name=\"exampleId\" value=\"0\">");
-                                out.println("<button >More...</button>");
-                                out.println("</form>");
-                                */
                                 out.println("</div>");
 
                             }
@@ -188,20 +143,9 @@
                     <div class="clearfix visible-lg"></div>
                 </div>
             </div>
-            <div id="layer2" class="tab-pane fade">
-                <h3>Menu 1</h3>
-                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            </div>
-            <div id="layer3" class="tab-pane fade">
-                <h3>Menu 2</h3>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-            </div>
+
         </div>
-        <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#layer1">Layer1<br>Classical<br>Syntactic</a></li>
-            <li><a data-toggle="tab" href="#layer2">Layer2<br>UD<br>Syntactic</a></li>
-            <li><a data-toggle="tab" href="#layer3"><br>Layer3<br>Semantic</a></li>
-        </ul>
+
     </div>
 
 </body>

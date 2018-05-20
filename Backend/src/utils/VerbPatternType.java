@@ -1,5 +1,8 @@
 package utils;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 public class VerbPatternType {
     int id;
 
@@ -20,6 +23,18 @@ public class VerbPatternType {
         this.syntacticType = syntacticType;
         this.patternType = patternType;
         this.head = head;
+    }
+
+    public Element toXMLElement(Document doc)
+    {
+        Element rootType = doc.createElement("type");
+
+        rootType.setAttribute("id", id+"");
+        rootType.setAttribute("syntactic_type", syntacticType);
+        rootType.setAttribute("pattern_type", patternType);
+        rootType.setAttribute("head", head);
+
+        return rootType;
     }
 
     public int getId() {

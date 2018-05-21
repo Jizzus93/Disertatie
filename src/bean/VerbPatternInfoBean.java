@@ -312,4 +312,5 @@ public class VerbPatternInfoBean {
     {
         this.semanticExamplesNumber = examplesNumber;
     }
+
 }

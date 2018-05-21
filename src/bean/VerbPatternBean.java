@@ -21,10 +21,24 @@ public class VerbPatternBean {
     VerbPatternTypeBean verbPatternType;
     VerbPatternInfoBean patternInfo;
 
+
     ArrayList<String> implicatures = new ArrayList<String>();
 
-
     ArrayList<OccurrenceBean> examples = new ArrayList<OccurrenceBean>();
+
+
+    public VerbPatternBean(int verb_id, int id, String form_romainian, String form_english)
+    {
+        this.verb_id = verb_id;
+        this.id = id;
+        this.form_ro = form_romainian;
+        this.form_en = form_english;
+        String PWN = "";
+        verbPatternType = new VerbPatternTypeBean();
+        patternInfo = new VerbPatternInfoBean();
+        examplesNumber = 0;
+    }
+
     int examplesNumber;
 
     public int getVerb_id() {

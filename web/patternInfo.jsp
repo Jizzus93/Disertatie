@@ -4,7 +4,8 @@
 <%@ page import="java.io.InputStreamReader" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="bean.VerbPatternInfoBean" %>
-<%@ page import="bean.VerbPatternBean" %><%--
+<%@ page import="bean.VerbPatternBean" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: octak
   Date: 5/14/2018
@@ -21,9 +22,9 @@
 <body>
 <%
     int searchedVerb = Integer.parseInt(request.getParameter("verbId"));
-    
+
     int patternId = Integer.parseInt(request.getParameter("patternId"));
-    boolean isAuthenticated = (request.getParameter("add")=="true")?true:false; //TODO: IMPLEMENT USERS
+    boolean isAuthenticated = (request.getParameter("add").equals("true"))?true:false; //TODO: IMPLEMENT USERS
 
 
     URL url = new URL("http://localhost:8080/Backend_war_exploded/searchEngine/getPattern?verbId="+ searchedVerb+"&patternId="+ patternId );
@@ -54,6 +55,15 @@
 
 
 <%
+    //GENERAL
+    String form_ro = "";
+    form_ro = exampleInfoBean.getForm_ro();
+    String form_en = "";
+    form_en = exampleInfoBean.getForm_en();
+    String pwn = "";
+    pwn = exampleInfoBean.getPWN();
+
+    //END GENERAL
 
     //TYPE
     String typeHead = "";
@@ -70,6 +80,14 @@
     //END TYPE
 
     //IMPLICATURES
+
+    ArrayList<String> implicatures = new ArrayList<String>();
+    implicatures = exampleInfoBean.getImplicatures();
+    String implicaturesString = "";
+    for(String s: implicatures)
+    {
+        implicaturesString += s + "\n";
+    }
 
     //END IMPLICATURES
 
@@ -178,7 +196,48 @@
     }
 %>
 
-<form>
+<form action="patternSave.jsp" method="post" target="_blank" style="margin-right: 200px;">
+
+        <h2>General Info:</h2>
+        <div class="form-group-row">
+            <label for="pattern_id" class="col-sm-2 col-form-label">Pattern Id:</label>
+            <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="pattern_id" name="pattern_id" value="<%=patternId%>">
+            <input type="text" hidden class="form-control-plaintext" id="verb_id" name="verb_id" value="<%=searchedVerb%>">
+        </div>
+        <div class="form-group-row">
+            <label for="pattern_form_ro" class="col-sm-2 col-form-label">Form RO:</label>
+            <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="pattern_form_ro" name="pattern_form_ro" value="<%=form_ro%>">
+        </div>
+        <div class="form-group-row">
+            <label for="pattern_form_en" class="col-sm-2 col-form-label">Form EN:</label>
+            <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="pattern_form_en" name="pattern_form_en" value="<%=form_en%>">
+        </div>
+        <div class="form-group-row">
+            <label for="pattern_pwn" class="col-sm-2 col-form-label">PWN:</label>
+            <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="pattern_pwn" name="pattern_pwn" value="<%=pwn%>">
+        </div>
+
+
+
+        <h2>Type:</h2>
+        <div class="form-group-row">
+            <label for="type_id" class="col-sm-2 col-form-label">Type Id:</label>
+            <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="type_id" name="type_id" value="<%=typeId%>">
+        </div>
+        <div class="form-group-row">
+            <label for="type_pattern_type" class="col-sm-2 col-form-label">Pattern Type:</label>
+            <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="type_pattern_type" name="type_pattern_type" value="<%=patternType%>">
+        </div>
+        <div class="form-group-row">
+            <label for="type_syntactic_type" class="col-sm-2 col-form-label">Syntactic Type:</label>
+            <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="type_syntactic_type" name="type_syntactic_type" value="<%=syntacticType%>">
+        </div>
+        <div class="form-group-row">
+            <label for="type_head" class="col-sm-2 col-form-label">Head:</label>
+            <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="type_head" name="type_head" value="<%=typeHead%>">
+        </div>
+
+
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#layer1">Layer1<br>Classical<br>Syntactic</a></li>
         <li><a data-toggle="tab" href="#layer2">Layer2<br>UD<br>Syntactic</a></li>
@@ -189,88 +248,91 @@
 
             <h2>Dependencies:</h2>
             <div class="form-group-row">
-                <label for="restrictions" class="col-sm-2 col-form-label">Restrictions:</label>
-                <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="restrictions" value="<%=restrictions%>">
+                <label for="classic_restrictions" class="col-sm-2 col-form-label">Restrictions:</label>
+                <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="classic_restrictions" name="classic_restrictions" value="<%=restrictions%>">
             </div>
             <div class="form-group-row">
-                <label for="advanced_arguments" class="col-sm-2 col-form-label">Advanced Arguments:</label>
-                <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="advanced_arguments" value="<%=advancedArguments%>">
+                <label for="classic_advanced_arguments" class="col-sm-2 col-form-label">Advanced Arguments:</label>
+                <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="classic_advanced_arguments" name="classic_advanced_arguments" value="<%=advancedArguments%>">
             </div>
             <div class="form-group-row">
-                <label for="advanced_adjuncts" class="col-sm-2 col-form-label">Advanced Adjuncts:</label>
-                <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="advanced_adjuncts" value="<%=advancedAdjuncts%>">
+                <label for="classic_advanced_adjuncts" class="col-sm-2 col-form-label">Advanced Adjuncts:</label>
+                <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="classic_advanced_adjuncts" name="classic_advanced_adjuncts" value="<%=advancedAdjuncts%>">
             </div>
             <div class="form-group-row">
-                <label for="arguments" class="col-sm-2 col-form-label">Arguments:</label>
-                <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="arguments" value="<%=arguments%>">
+                <label for="classic_arguments" class="col-sm-2 col-form-label">Arguments:</label>
+                <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="classic_arguments" name="classic_arguments" value="<%=arguments%>">
             </div>
             <div class="form-group-row">
-                <label for="adjuncts" class="col-sm-2 col-form-label">Adjuncts:</label>
-                <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="adjuncts" value="<%=adjuncts%>">
-            </div>
-            <div class="form-group-row">
-                <label for="adjuncts" class="col-sm-2 col-form-label">Adjuncts:</label>
-                <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="adjuncts" value="<%=adjuncts%>">
+                <label for="classic_adjuncts" class="col-sm-2 col-form-label">Adjuncts:</label>
+                <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="classic_adjuncts" name="classic_adjuncts" value="<%=adjuncts%>">
             </div>
         </div>
 
         <div id="layer2" class="tab-pane fade">
 
-            <form>
+
                 <h2>Dependencies:</h2>
                 <div class="form-group-row">
                     <label for="ud_restrictions" class="col-sm-2 col-form-label">Restrictions:</label>
-                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="ud_restrictions" value="<%=udRestrictions%>">
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="ud_restrictions" name="ud_restrictions" value="<%=udRestrictions%>">
                 </div>
                 <div class="form-group-row">
                     <label for="ud_advanced_arguments" class="col-sm-2 col-form-label">Advanced Arguments:</label>
-                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="ud_advanced_arguments" value="<%=udAdvancedArguments%>">
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="ud_advanced_arguments" name="ud_advanced_arguments" value="<%=udAdvancedArguments%>">
                 </div>
                 <div class="form-group-row">
                     <label for="ud_advanced_adjuncts" class="col-sm-2 col-form-label">Advanced Adjuncts:</label>
-                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="ud_advanced_adjuncts" value="<%=udAdvancedAdjuncts%>">
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="ud_advanced_adjuncts" name="ud_advanced_adjuncts" value="<%=udAdvancedAdjuncts%>">
                 </div>
                 <div class="form-group-row">
                     <label for="ud_arguments" class="col-sm-2 col-form-label">Arguments:</label>
-                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="ud_arguments" value="<%=udArguments%>">
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="ud_arguments" name="ud_arguments" value="<%=udArguments%>">
                 </div>
                 <div class="form-group-row">
                     <label for="ud_adjuncts" class="col-sm-2 col-form-label">Adjuncts:</label>
-                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="ud_adjuncts" value="<%=udAdjuncts%>">
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="ud_adjuncts" name="ud_adjuncts" value="<%=udAdjuncts%>">
                 </div>
-            </form>
+
         </div>
 
         <div id="layer3" class="tab-pane fade">
 
-            <form>
+
                 <h2>Dependencies:</h2>
                 <div class="form-group-row">
                     <label for="semantic_restrictions" class="col-sm-2 col-form-label">Restrictions:</label>
-                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="semantic_restrictions" value="<%=semanticRestrictions%>">
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="semantic_restrictions" name="semantic_restrictions" value="<%=semanticRestrictions%>">
                 </div>
                 <div class="form-group-row">
                     <label for="semantic_advanced_arguments" class="col-sm-2 col-form-label">Advanced Arguments:</label>
-                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="semantic_advanced_arguments" value="<%=semanticAdvancedArguments%>">
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="semantic_advanced_arguments" name="semantic_advanced_arguments" value="<%=semanticAdvancedArguments%>">
                 </div>
                 <div class="form-group-row">
                     <label for="semantic_advanced_adjuncts" class="col-sm-2 col-form-label">Advanced Adjuncts:</label>
-                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="semantic_advanced_adjuncts" value="<%=semanticAdvancedAdjuncts%>">
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="semantic_advanced_adjuncts" name="semantic_advanced_adjuncts" value="<%=semanticAdvancedAdjuncts%>">
                 </div>
                 <div class="form-group-row">
                     <label for="semantic_arguments" class="col-sm-2 col-form-label">Arguments:</label>
-                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="semantic_arguments" value="<%=semanticArguments%>">
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="semantic_arguments" name="semantic_arguments" value="<%=semanticArguments%>">
                 </div>
                 <div class="form-group-row">
                     <label for="semantic_adjuncts" class="col-sm-2 col-form-label">Adjuncts:</label>
-                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="semantic_adjuncts" value="<%=semanticAdjuncts%>">
+                    <input type="text" <%=isReadOnly%> class="form-control-plaintext" id="semantic_adjuncts" name="semantic_adjuncts" value="<%=semanticAdjuncts%>">
                 </div>
 
-            </form>
-        </div>
 
+        </div>
     </div>
-    <button type="button" <%=isHidden%> >Save Changes</button>
-</form>
+
+    <div class="form-group-row">
+        <label for="implicatures" class="col-sm-2 col-form-label">Implicatures:</label>
+        <textarea <%=isReadOnly%> class="form-control" id="implicatures" name="implicatures" value=""><%=implicaturesString%></textarea>
+    </div>
+
+
+
+    <button <%=isHidden%> >Save Changes</button>
+    </form>
 </body>
 </html>

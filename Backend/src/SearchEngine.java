@@ -1,7 +1,4 @@
-import FileIO.Occurrence;
-import FileIO.ClassicXmlReader;
-import FileIO.PatternXmlReader;
-import FileIO.PatternXmlWriter;
+import FileIO.*;
 import com.google.gson.Gson;
 import org.util.set.Array;
 import utils.*;
@@ -147,16 +144,42 @@ public class SearchEngine {
     @Path("/getExample")
     // The Java method will produce content identified by the MIME Media type "text/plain"
     @Produces("application/json")
-    public String getExample(@QueryParam("treeBankId") String treeBankId, @QueryParam("sentenceId") String sentenceId, @QueryParam("wordId") String wordId)
+    public String getExample(@QueryParam("treeBankId") String treeBankId, @QueryParam("sentenceId") String sentenceId, @QueryParam("wordId") String wordId, @QueryParam("type") String type)
     {
-        String result= "";
+        String log= "";
 
-        ClassicXmlReader xmlFileReader = new ClassicXmlReader();
-
-        Sentence sentence = xmlFileReader.getSentence(new Occurrence(treeBankId,sentenceId,Integer.parseInt(wordId)));
-
+        Sentence sentence = null;
         Gson gson = new Gson();
 
+        switch(type)
+        {
+            case "classic":
+            {
+                ClassicXmlReader xmlFileReader = new ClassicXmlReader();
+                sentence = xmlFileReader.getSentence(new Occurrence(treeBankId,sentenceId,Integer.parseInt(wordId)));
+
+                break;
+            }
+            case "semantic":
+            {
+                SemanticXmlReader xmlFileReader = new SemanticXmlReader();
+                sentence = xmlFileReader.getSentence(new Occurrence(treeBankId,sentenceId,Integer.parseInt(wordId)));
+
+                break;
+            }
+            case "UD":
+            {
+                UDXmlReader xmlFileReader = new UDXmlReader();
+                sentence = xmlFileReader.getSentence(new Occurrence(treeBankId,sentenceId,Integer.parseInt(wordId)));
+
+                break;
+            }
+            default:
+            {
+                log += "SearchEngine::getExample -> UnknownExampleType" + type;
+                break;
+            }
+        }
 
         return gson.toJson(sentence);
     }
@@ -248,34 +271,120 @@ public class SearchEngine {
     private String initializeExampleSearch()
     {
         String response = "";
-        ClassicXmlReader xmlFileReader = new ClassicXmlReader();
-        ArrayList<Sentence> sentences = xmlFileReader.readXMLFile("__TreeBank/08_PopReg.xml");
 
-
-        for(Sentence s: sentences)
-        {
-            ArrayList<Word> verbList = getVerbList(s);
-
-            for(Word verb: verbList)
-            {
-                Occurrence currentOccurrence = new Occurrence("08_PopReg", s.getID(), verb.getId());
-                if(!searchMap.containsKey(verb.getLemma()))
-                {
-
-                    ArrayList<Occurrence> occurrences = new ArrayList<Occurrence>();
-                    occurrences.add(currentOccurrence);
-                    searchMap.put(verb.getLemma(), occurrences);
-
-                }
-                else
-                {
-                    searchMap.get(verb.getLemma()).add(currentOccurrence);
-                }
-            }
-        }
+        response += loadExampleFiles("__TreeBank/Classic/");
+        response += loadExampleFiles("__TreeBank/Semantic/");
 
         isExampleSearchInitialized = true;
         return response;
+    }
+
+    private String loadExampleFiles(String fileType)
+    {
+        String log = "";
+        switch (fileType)
+        {
+            case "__TreeBank/Classic/":
+                {
+                    ClassicXmlReader xmlFileReader = new ClassicXmlReader();
+
+                    for (File f : new File(fileType).listFiles())
+                    {
+                        int pos = f.getName().lastIndexOf(".");
+                        String treenankId = f.getName().substring(0, pos);
+                        ArrayList<Sentence> sentences = xmlFileReader.readXMLFile(fileType + f.getName());
+
+                        for (Sentence s : sentences)
+                        {
+                            ArrayList<Word> verbList = getVerbList(s);
+
+                            for (Word verb : verbList) {
+                                Occurrence currentOccurrence = new Occurrence(treenankId, s.getID(), verb.getId());
+                                if (!searchMap.containsKey(verb.getLemma())) {
+
+                                    ArrayList<Occurrence> occurrences = new ArrayList<Occurrence>();
+                                    occurrences.add(currentOccurrence);
+                                    searchMap.put(verb.getLemma(), occurrences);
+
+                                } else {
+                                    searchMap.get(verb.getLemma()).add(currentOccurrence);
+                                }
+                            }
+                        }
+
+                    }
+                    break;
+                }
+            case "__TreeBank/UD/":
+            {
+                SemanticXmlReader xmlFileReader = new SemanticXmlReader();
+
+                for (File f : new File(fileType).listFiles())
+                {
+                    int pos = f.getName().lastIndexOf(".");
+                    String treenankId = f.getName().substring(0, pos);
+                    ArrayList<Sentence> sentences = xmlFileReader.readXMLFile(fileType + f.getName());
+
+                    for (Sentence s : sentences)
+                    {
+                        ArrayList<Word> verbList = getVerbList(s);
+
+                        for (Word verb : verbList) {
+                            Occurrence currentOccurrence = new Occurrence(treenankId, s.getID(), verb.getId());
+                            if (!searchMap.containsKey(verb.getLemma())) {
+
+                                ArrayList<Occurrence> occurrences = new ArrayList<Occurrence>();
+                                occurrences.add(currentOccurrence);
+                                searchMap.put(verb.getLemma(), occurrences);
+
+                            } else {
+                                searchMap.get(verb.getLemma()).add(currentOccurrence);
+                            }
+                        }
+                    }
+
+                }
+                break;
+            }
+            case "__TreeBank/Semantic/":
+            {
+                ClassicXmlReader xmlFileReader = new ClassicXmlReader();
+
+                for (File f : new File(fileType).listFiles())
+                {
+                    int pos = f.getName().lastIndexOf(".");
+                    String treenankId = f.getName().substring(0, pos);
+                    ArrayList<Sentence> sentences = xmlFileReader.readXMLFile(fileType + f.getName());
+
+                    for (Sentence s : sentences)
+                    {
+                        ArrayList<Word> verbList = getVerbList(s);
+
+                        for (Word verb : verbList) {
+                            Occurrence currentOccurrence = new Occurrence(treenankId, s.getID(), verb.getId());
+                            if (!searchMap.containsKey(verb.getLemma())) {
+
+                                ArrayList<Occurrence> occurrences = new ArrayList<Occurrence>();
+                                occurrences.add(currentOccurrence);
+                                searchMap.put(verb.getLemma(), occurrences);
+
+                            } else {
+                                searchMap.get(verb.getLemma()).add(currentOccurrence);
+                            }
+                        }
+                    }
+
+                }
+                break;
+            }
+            default:
+            {
+                log += "SearchEngine::loadExampleFiles -> Unknown file type" + fileType;
+                break;
+            }
+        }
+
+        return log;
     }
 
 

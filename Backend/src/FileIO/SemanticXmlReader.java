@@ -11,17 +11,15 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
-public class ClassicXmlReader{
-
+public class SemanticXmlReader {
     public Sentence getSentence(Occurrence a_occurrence)
     {
         Sentence result = new Sentence();
 
         try {
 
-            File fXmlFile = new File("__TreeBank/Classic/" + a_occurrence.getTreebankID() + ".xml");
+            File fXmlFile = new File("__TreeBank/Semantic/" + a_occurrence.getTreebankID() + ".xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(fXmlFile);
@@ -135,7 +133,7 @@ public class ClassicXmlReader{
                         }
                     }
 
-                   response.add(new Sentence(id, parser, user, date, wordList));
+                    response.add(new Sentence(id, parser, user, date, wordList));
                 }
 
             }

@@ -8,12 +8,14 @@ public class Occurrence {
     private String mTreeBankID;
     private String mSentenceID;
     private int mWordID;
+    private String occurrenceType;
 
-    public Occurrence(String aTreeBankId, String aSentenceID,int aWordID)
+    public Occurrence(String aTreeBankId, String aSentenceID,int aWordID, String aOccurrenceType)
     {
         this.mTreeBankID = aTreeBankId;
         this.mSentenceID = aSentenceID;
         this.mWordID = aWordID;
+        this.occurrenceType = aOccurrenceType;
     }
 
     public Element toXMLElement(Document doc, int exampleId)
@@ -24,6 +26,7 @@ public class Occurrence {
         rootExample.setAttribute("corpus", mTreeBankID);
         rootExample.setAttribute("sentence_id", mSentenceID);
         rootExample.setAttribute("word_id", mWordID+"");
+        rootExample.setAttribute("type", occurrenceType);
 
         return rootExample;
     }

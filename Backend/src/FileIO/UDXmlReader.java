@@ -9,7 +9,9 @@ import utils.Word;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 
 public class UDXmlReader {
@@ -17,62 +19,74 @@ public class UDXmlReader {
     {
         Sentence result = new Sentence();
 
-        try {
+        try (BufferedReader br = new BufferedReader(new FileReader("__TreeBank/UD/" + a_occurrence.getTreebankID() + ".conllu"))) {
+            String line;
 
-            File fXmlFile = new File("__TreeBank/UD/" + a_occurrence.getTreebankID() + ".xml");
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(fXmlFile);
+            while ((line = br.readLine()) != null) {
 
-            //optional, but recommended
-            //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
-            doc.getDocumentElement().normalize();
-
-            NodeList nList = doc.getElementsByTagName("sentence");
-
-
-            for (int temp = 0; temp < nList.getLength(); temp++) {
-
-                Node nNode = nList.item(temp);
-
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
-                    Element eElement = (Element) nNode;
-
-                    if(eElement.getAttribute("id").equals(a_occurrence.getSentenceID()))
+                if(line.contains("newdoc"))
+                {
+                    String[] elements = line.split(" ");
+                    if(elements.length>4)
                     {
-                        String id = eElement.getAttribute("id");
-                        String parser = eElement.getAttribute("parser");
-                        String user = eElement.getAttribute("user");
-                        String date = eElement.getAttribute("date");
-                        ArrayList<Word> wordList = new ArrayList<Word>();
-
-                        NodeList words = nNode.getChildNodes();
-                        for(int i = 0; i< words.getLength(); i++)
+                        String doc_id = elements[4];
+                    }
+                }
+                if(line.contains("sent_id"))
+                {
+                    String[] elements = line.split(" ");
+                    if(elements.length>3)
+                    {
+                        String sent_id = elements[3];
+                        if(sent_id.equals(a_occurrence.getSentenceID()))
                         {
-                            Node wordNode = words.item(i);
+                            result.setID(sent_id);
 
-                            if (wordNode.getNodeType() == Node.ELEMENT_NODE)
+                            if((line = br.readLine()) != null)
                             {
-                                Element wordElement = (Element) wordNode;
+                                if(line.contains("text"))
+                                {
 
-                                int word_id = Integer.parseInt(wordElement.getAttribute("id"));
-                                String word_form = wordElement.getAttribute("form");
-                                String word_lemma = wordElement.getAttribute("lemma");
-                                String word_postag = wordElement.getAttribute("postag");
-                                int word_head = Integer.parseInt(wordElement.getAttribute("head"));
-                                String word_chunk = wordElement.getAttribute("chunk");
-                                String word_deprel = wordElement.getAttribute("deprel");
-
-                                wordList.add(new Word(word_id, word_form, word_lemma, word_postag, word_head, word_chunk, word_deprel));
+                                }
+                                ArrayList<Word> words = new ArrayList<Word>();
+                                //getting words
+                                while((line = br.readLine()) != null && !line.equals(""))
+                                {
+                                    String[] tokens = line.split("\t");
+                                    if(tokens.length>7)
+                                    {
+                                        String id = tokens[0];
+                                        String form = tokens[1];
+                                        String lemma = tokens[2];
+                                        String parteVb = tokens[3];
+                                        String posTag = tokens[4];
+                                        //
+                                        String head = tokens[6];
+                                        if(head.equals("amod"))
+                                        {
+                                            head = "0";
+                                        }
+                                        String depRel = tokens[7];
+                                        Word word = new Word(Integer.parseInt(id), form, lemma, posTag, Integer.parseInt(head.trim()), "", depRel);
+                                        words.add(word);
+                                    }
+                                }
+                                result.setWordList(words);
+                                break;
+                            }
+                            else
+                            {
+                                break;
                             }
                         }
 
-                        result = new Sentence(id, parser, user, date, wordList);
                     }
                 }
+
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e )
+        {
             e.printStackTrace();
         }
 
@@ -83,64 +97,82 @@ public class UDXmlReader {
 
     public ArrayList<Sentence> readXMLFile(String path)
     {
-        ArrayList<Sentence> response = new ArrayList<Sentence>();
-        try {
+        ArrayList<Sentence> sentences = new ArrayList<Sentence>();
 
-            File fXmlFile = new File(path);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(fXmlFile);
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            String line;
 
-            //optional, but recommended
-            //read this - http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
-            doc.getDocumentElement().normalize();
+            while ((line = br.readLine()) != null) {
 
-            NodeList nList = doc.getElementsByTagName("sentence");
-
-
-            for (int temp = 0; temp < nList.getLength(); temp++) {
-
-                Node nNode = nList.item(temp);
-
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-
-                    Element eElement = (Element) nNode;
-
-                    String id = eElement.getAttribute("id");
-                    String parser = eElement.getAttribute("parser");
-                    String user = eElement.getAttribute("user");
-                    String date = eElement.getAttribute("date");
-                    ArrayList<Word> wordList = new ArrayList<Word>();
-
-                    NodeList words = nNode.getChildNodes();
-                    for(int i = 0; i< words.getLength(); i++)
+                if(line.contains("newdoc"))
+                {
+                    String[] elements = line.split(" ");
+                    if(elements.length>4)
                     {
-                        Node wordNode = words.item(i);
-
-                        if (wordNode.getNodeType() == Node.ELEMENT_NODE)
-                        {
-                            Element wordElement = (Element) wordNode;
-
-                            int word_id = Integer.parseInt(wordElement.getAttribute("id"));
-                            String word_form = wordElement.getAttribute("form");
-                            String word_lemma = wordElement.getAttribute("lemma");
-                            String word_postag = wordElement.getAttribute("postag");
-                            int word_head = Integer.parseInt(wordElement.getAttribute("head"));
-                            String word_chunk = wordElement.getAttribute("chunk");
-                            String word_deprel = wordElement.getAttribute("deprel");
-
-                            wordList.add(new Word(word_id, word_form, word_lemma, word_postag, word_head, word_chunk, word_deprel));
-                        }
+                        String doc_id = elements[4];
                     }
+                }
+                if(line.contains("sent_id"))
+                {
+                    Sentence result = new Sentence();
+                    String[] elements = line.split(" ");
+                    if(elements.length>3)
+                    {
+                        String sent_id = elements[3];
 
-                    response.add(new Sentence(id, parser, user, date, wordList));
+                        result.setID(sent_id);
+
+                        if((line = br.readLine()) != null)
+                        {
+                            if(line.contains("text"))
+                            {
+
+                            }
+                            ArrayList<Word> words = new ArrayList<Word>();
+                            //getting words
+                            while((line = br.readLine()) != null && !line.equals(""))
+                            {
+                                String[] tokens = line.split("\t");
+                                if(tokens.length>7)
+                                {
+                                    String id = tokens[0];
+                                    String form = tokens[1];
+                                    String lemma = tokens[2];
+                                    String parteVb = tokens[3];
+                                    String posTag = tokens[4];
+                                    //
+                                    String head = tokens[6];
+                                    if(head.equals("amod"))
+                                    {
+                                        head = "0";
+                                    }
+                                    String depRel = tokens[7];
+                                    Word word = new Word(Integer.parseInt(id), form, lemma, posTag, Integer.parseInt(head), "", depRel);
+                                    words.add(word);
+                                }
+                            }
+                            result.setWordList(words);
+
+                        }
+                        else
+                        {
+                            break;
+                        }
+
+                        sentences.add(result);
+
+                    }
                 }
 
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e )
+        {
             e.printStackTrace();
         }
-        return response;
+
+
+        return sentences;
     }
 
 }

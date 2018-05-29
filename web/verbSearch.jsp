@@ -98,7 +98,7 @@
 
 
         <div class="row">
-            <div class="tab-content col-md-8 ">
+            <div class="tab-content col-md-10 ">
 
                 <%
                     for(int i= 0; i<verbEntitiy.getPatterns().size(); i++)
@@ -121,12 +121,12 @@
                     }
                 %>
                 <div id="add_pattern" class="tab-pane fade<%=(verbEntitiy.getPatterns().size()==0)?"in active":""%>">
-                    <iframe src="patternInfo.jsp?verbId=<%=verbEntitiy.getId()%>&patternId=99999999&add=true" width=\"100%\" height=\"60%\"></iframe>
+                    <iframe src="patternAdd.jsp?verbId=<%=verbEntitiy.getId()%>&patternId=<%=(verbEntitiy.getPatterns().size()+1)%>&add=true" width="100%" height="60%"></iframe>
                 </div>
 
             </div>
             <input type="hidden" name="word" value="searchedWord">
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <ul class="nav nav-pills nav-stacked">
 
                     <%

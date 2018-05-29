@@ -144,9 +144,11 @@ public class SearchEngine {
     @Path("/getExample")
     // The Java method will produce content identified by the MIME Media type "text/plain"
     @Produces("application/json")
-    public String getExample(@QueryParam("treeBankId") String treeBankId, @QueryParam("sentenceId") String sentenceId, @QueryParam("wordId") String wordId, @QueryParam("type") String type)
+    public String getExample(@QueryParam("treebankId") String treeBankId, @QueryParam("sentenceId") String sentenceId, @QueryParam("wordId") String wordId, @QueryParam("type") String type)
     {
         String log= "";
+        log+= treeBankId + " | " + sentenceId + " | " + wordId + " | " + type;
+
 
         Sentence sentence = null;
         Gson gson = new Gson();
@@ -156,21 +158,22 @@ public class SearchEngine {
             case "classic":
             {
                 ClassicXmlReader xmlFileReader = new ClassicXmlReader();
-                sentence = xmlFileReader.getSentence(new Occurrence(treeBankId,sentenceId,Integer.parseInt(wordId)));
+                sentence = xmlFileReader.getSentence(new Occurrence(treeBankId,sentenceId,Integer.parseInt(wordId),type));
 
                 break;
             }
             case "semantic":
             {
                 SemanticXmlReader xmlFileReader = new SemanticXmlReader();
-                sentence = xmlFileReader.getSentence(new Occurrence(treeBankId,sentenceId,Integer.parseInt(wordId)));
+                sentence = xmlFileReader.getSentence(new Occurrence(treeBankId,sentenceId,Integer.parseInt(wordId),type));
 
                 break;
             }
-            case "UD":
+            case "UD": //remove this after UD reader is implemented
             {
                 UDXmlReader xmlFileReader = new UDXmlReader();
-                sentence = xmlFileReader.getSentence(new Occurrence(treeBankId,sentenceId,Integer.parseInt(wordId)));
+                sentence = xmlFileReader.getSentence(new Occurrence(treeBankId,sentenceId,Integer.parseInt(wordId),type));
+
 
                 break;
             }
@@ -181,6 +184,7 @@ public class SearchEngine {
             }
         }
 
+        //return log;
         return gson.toJson(sentence);
     }
 
@@ -274,6 +278,7 @@ public class SearchEngine {
 
         response += loadExampleFiles("__TreeBank/Classic/");
         response += loadExampleFiles("__TreeBank/Semantic/");
+        response += loadExampleFiles("__TreeBank/UD/");
 
         isExampleSearchInitialized = true;
         return response;
@@ -299,7 +304,7 @@ public class SearchEngine {
                             ArrayList<Word> verbList = getVerbList(s);
 
                             for (Word verb : verbList) {
-                                Occurrence currentOccurrence = new Occurrence(treenankId, s.getID(), verb.getId());
+                                Occurrence currentOccurrence = new Occurrence(treenankId, s.getID(), verb.getId(),"classic");
                                 if (!searchMap.containsKey(verb.getLemma())) {
 
                                     ArrayList<Occurrence> occurrences = new ArrayList<Occurrence>();
@@ -317,7 +322,7 @@ public class SearchEngine {
                 }
             case "__TreeBank/UD/":
             {
-                SemanticXmlReader xmlFileReader = new SemanticXmlReader();
+                UDXmlReader xmlFileReader = new UDXmlReader();
 
                 for (File f : new File(fileType).listFiles())
                 {
@@ -330,7 +335,7 @@ public class SearchEngine {
                         ArrayList<Word> verbList = getVerbList(s);
 
                         for (Word verb : verbList) {
-                            Occurrence currentOccurrence = new Occurrence(treenankId, s.getID(), verb.getId());
+                            Occurrence currentOccurrence = new Occurrence(treenankId, s.getID(), verb.getId(), "UD");
                             if (!searchMap.containsKey(verb.getLemma())) {
 
                                 ArrayList<Occurrence> occurrences = new ArrayList<Occurrence>();
@@ -361,7 +366,7 @@ public class SearchEngine {
                         ArrayList<Word> verbList = getVerbList(s);
 
                         for (Word verb : verbList) {
-                            Occurrence currentOccurrence = new Occurrence(treenankId, s.getID(), verb.getId());
+                            Occurrence currentOccurrence = new Occurrence(treenankId, s.getID(), verb.getId(), "semantic");
                             if (!searchMap.containsKey(verb.getLemma())) {
 
                                 ArrayList<Occurrence> occurrences = new ArrayList<Occurrence>();

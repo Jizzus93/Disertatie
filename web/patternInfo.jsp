@@ -5,7 +5,8 @@
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="bean.VerbPatternInfoBean" %>
 <%@ page import="bean.VerbPatternBean" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="bean.OccurrenceBean" %><%--
   Created by IntelliJ IDEA.
   User: octak
   Date: 5/14/2018
@@ -187,6 +188,11 @@
     }
     //END SEMANTIC
 
+    //EXAMPLES
+    ArrayList<OccurrenceBean> occurrences = exampleInfoBean.getExamples();
+    //END EXAMPLES
+
+
     String isReadOnly = "";
     String isHidden = "";
     if(!isAuthenticated)
@@ -196,7 +202,7 @@
     }
 %>
 
-<form action="patternSave.jsp" method="post" target="_blank" style="margin-right: 200px;">
+<form action="patternSave.jsp" method="post" target="_blank" >
 
         <h2>General Info:</h2>
         <div class="form-group-row">
@@ -328,6 +334,58 @@
     <div class="form-group-row">
         <label for="implicatures" class="col-sm-2 col-form-label">Implicatures:</label>
         <textarea <%=isReadOnly%> class="form-control" id="implicatures" name="implicatures" value=""><%=implicaturesString%></textarea>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <%
+            if(exampleInfoBean.getExamplesNumber() == 0)
+            {
+                out.println("<li class=\"active\"><a data-toggle=\"tab\" href=\"#add_example\">Add Example</a></li>");
+            }
+            else
+            {
+                out.println("<li class=\"active\"><a data-toggle=\"tab\" href=\"#example_1\">1</a></li>");
+                for(int i=2; i<=exampleInfoBean.getExamplesNumber(); i++)
+                {
+                    out.println("<li><a data-toggle=\"tab\" href=\"#example_" + i + "\">" + i + "</a></li>");
+                }
+                out.println("<li><a data-toggle=\"tab\" href=\"#add_example\">Add Example</a></li>");
+            }
+        %>
+
+    </ul>
+
+    <div class="form-group-row">
+        <div class="tab-content">
+            <%
+                if(exampleInfoBean.getExamplesNumber() <= 0)
+                {
+                    out.println("<div id=\"add_example\" class=\"tab-pane fade in active\">");
+                    out.println("<iframe src=\"addExample.jsp?verb="+exampleInfoBean.getForm_ro().toLowerCase()+"\" width=\"100%\" height=\"60%\"></iframe>");
+                    out.println("</div>");
+                }
+                else
+                {
+                    OccurrenceBean occurrence = occurrences.get(0);
+                    String params = "treebankId=" + occurrence.getTreebankID() + "&sentenceId=" + occurrence.getSentenceID() + "&wordId=" + occurrence.getWordID() + "&exampleType=" + occurrence.getOccurrenceType();
+                    out.println("<div id=\"example_1\" class=\"tab-pane fade in active\">");
+                    out.println("<iframe src=\"exampleInfo.jsp?"+params+"\" width=\"100%\" height=\"60%\"></iframe>");
+                    out.println("</div>");
+                    for(int i=2; i<=exampleInfoBean.getExamplesNumber(); i++)
+                    {
+                        occurrence = occurrences.get(i-1);
+                        params = "treebankId=" + occurrence.getTreebankID() + "&sentenceId=" + occurrence.getSentenceID() + "&wordId=" + occurrence.getWordID() + "&exampleType=" + occurrence.getOccurrenceType();
+                        out.println("<div id=\"example_" + i + "\" class=\"tab-pane fade\">");
+                        out.println("<iframe src=\"exampleInfo.jsp?"+params+"\" width=\"100%\" height=\"60%\"></iframe>");
+                        out.println("</div>");
+                    }
+                    out.println("<div id=\"add_example\" class=\"tab-pane fade\">");
+                    out.println("<iframe src=\"addExample.jsp?verb="+exampleInfoBean.getForm_ro().toLowerCase()+"\" width=\"100%\" height=\"60%\"></iframe>");
+                    out.println("</div>");
+                }
+            %>
+        </div>
+
     </div>
 
 

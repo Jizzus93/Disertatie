@@ -95,8 +95,9 @@ public class PatternXmlReader {
                                     {
                                         String treebankId = element.getAttribute("corpus");
                                         String sentenceId = element.getAttribute("sentence_id");
+                                        String exampleType = element.getAttribute("type");
                                         int wordId = Integer.parseInt(element.getAttribute("word_id"));
-                                        returnPattern.addExample(new Occurrence(treebankId, sentenceId, wordId));
+                                        returnPattern.addExample(new Occurrence(treebankId, sentenceId, wordId,exampleType));
                                         break;
                                     }
                                 }
@@ -200,8 +201,9 @@ public class PatternXmlReader {
                                     {
                                         String treebankId = element.getAttribute("corpus");
                                         String sentenceId = element.getAttribute("sentence_id");
+                                        String exampleType = element.getAttribute("type");
                                         int wordId = Integer.parseInt(element.getAttribute("word_id"));
-                                        returnPattern.addExample(new Occurrence(treebankId, sentenceId, wordId));
+                                        returnPattern.addExample(new Occurrence(treebankId, sentenceId, wordId,exampleType));
                                         break;
                                     }
                                     default:

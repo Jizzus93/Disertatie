@@ -7,7 +7,8 @@
 <%@ page import="bean.WordBean" %>
 <%@ page import="bean.OccurrenceBean" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="com.google.gson.reflect.TypeToken" %><%--
+<%@ page import="com.google.gson.reflect.TypeToken" %>
+<%@ page import="bean.ExampleBundleBean" %><%--
   Created by IntelliJ IDEA.
   User: octak
   Date: 5/26/2018
@@ -24,7 +25,7 @@
 <body>
 <%
     String verb = request.getParameter("verb");
-
+    int patternId = Integer.parseInt(request.getParameter("patternId"));
 
 
 
@@ -50,31 +51,39 @@
     conn.disconnect();
 
     Gson gson = new Gson();
-    ArrayList<OccurrenceBean> occurrences = gson.fromJson(jsonStr.toString() , new TypeToken<ArrayList<OccurrenceBean>>(){}.getType());
-    //<form action="exampleSave.jsp" method="post" target="_blank" >
+    ArrayList<ExampleBundleBean> exampleBundles = gson.fromJson(jsonStr.toString() , new TypeToken<ArrayList<ExampleBundleBean>>(){}.getType());
+    //
 %>
 
-
+<form action="exampleSave.jsp" method="post" target="_blank" >
+    <input type="text" name="patternId" value="<%=patternId%>" hidden>
+    <button style="position: fixed; margin-left: 80%">Add Selected Examples</button>
     <div class="container">
 
         <%
 
-            for(int i=0; i< occurrences.size() && i<21; i++)
+            for(int i=0; i< exampleBundles.size() && i<21; i++)
             {
-                switch(i%3)
+                switch(i%2)
                 {
                     case 0:
                     {
-                        OccurrenceBean occurrence = occurrences.get(i);
+                        OccurrenceBean occurrence = exampleBundles.get(i).getOccurrences().get(0);
 
                         String params = "treebankId=" + occurrence.getTreebankID() + "&sentenceId=" + occurrence.getSentenceID() + "&wordId=" + occurrence.getWordID() + "&exampleType=" + occurrence.getOccurrenceType();
+
+                        String arguments = "";
+                        for(String argument: exampleBundles.get(i).getArguments())
+                        {
+                            arguments += argument + " | ";
+                        }
 
                         out.println("<div class=\"row\">");
                         out.println("<div class=\"col-sm\">");
 
                         out.println("<iframe src=\"exampleInfo.jsp?"+params+"\" ></iframe>");
                         out.println("<br>");
-                        out.println("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"occurrence" + i + "\">"+occurrence.getTreebankID()+" | "+ occurrence.getSentenceID() + " | "+ occurrence.getWordID() + " | " + "</label>");
+                        out.println("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"exampleBundle" + i + "\" value=\""+arguments+"\">" + arguments + exampleBundles.get(i).getOccurrences().size() + "</label>");
 
 
                         out.println("</div>");
@@ -82,32 +91,20 @@
                     }
                     case 1:
                     {
-                        OccurrenceBean occurrence = occurrences.get(i);
+                        OccurrenceBean occurrence = exampleBundles.get(i).getOccurrences().get(0);
 
                         String params = "treebankId=" + occurrence.getTreebankID() + "&sentenceId=" + occurrence.getSentenceID() + "&wordId=" + occurrence.getWordID() + "&exampleType=" + occurrence.getOccurrenceType();
 
-
+                        String arguments = "";
+                        for(String argument: exampleBundles.get(i).getArguments())
+                        {
+                            arguments += argument + " | ";
+                        }
                         out.println("<div class=\"col-sm\">");
 
                         out.println("<iframe src=\"exampleInfo.jsp?"+params+"\" ></iframe>");
                         out.println("<br>");
-                        out.println("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"occurrence" + i + "\">"+occurrence.getTreebankID()+" | "+ occurrence.getSentenceID() + " | "+ occurrence.getWordID() + " | " + "</label>");
-
-                        out.println("</div>");
-                        break;
-                    }
-                    case 2:
-                    {
-                        OccurrenceBean occurrence = occurrences.get(i);
-
-                        String params = "treebankId=" + occurrence.getTreebankID() + "&sentenceId=" + occurrence.getSentenceID() + "&wordId=" + occurrence.getWordID() + "&exampleType=" + occurrence.getOccurrenceType();
-
-
-                        out.println("<div class=\"col-sm\">");
-
-                        out.println("<iframe src=\"exampleInfo.jsp?"+params+"\" ></iframe>");
-                        out.println("<br>");
-                        out.println("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"occurrence" + i + "\">"+occurrence.getTreebankID()+" | "+ occurrence.getSentenceID() + " | "+ occurrence.getWordID() + " | " + "</label>");
+                        out.println("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"exampleBundle" + i + "\" value=\""+arguments+"\">"+arguments + exampleBundles.get(i).getOccurrences().size() + "</label>");
 
                         out.println("</div>");
 
@@ -120,16 +117,15 @@
                     }
                 }
             }
-            if(((occurrences.size()-1) %3 != 2) && occurrences.size()<21)
+            if(((exampleBundles.size()-1) %2 != 1) && exampleBundles.size()<21)
             {
                 out.println("</div>");
             }
 
-        //</form>
+        //
         %>
-
     </div>
-
+</form>
 
 </body>
 </html>

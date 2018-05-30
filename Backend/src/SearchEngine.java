@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 @Path("/searchEngine")
 public class SearchEngine {
-    private HashMap<String, ArrayList<Occurrence>> searchMap = new HashMap<String , ArrayList<Occurrence>>();
+    private HashMap<String, ArrayList<ExampleBundle>> searchMap = new HashMap<String , ArrayList<ExampleBundle>>();
     private HashMap<String, VerbEntity> patternMap = new HashMap<String, VerbEntity>();
     private boolean isInitialized = false;
     private boolean isExampleSearchInitialized = false;
@@ -68,10 +68,64 @@ public class SearchEngine {
         if(searchMap.containsKey(verb))
         {
 
-            ArrayList<Occurrence> occurrences = searchMap.get(verb);
-            if(occurrences != null)
+            ArrayList<ExampleBundle> exampleBundles = searchMap.get(verb);
+            if(exampleBundles != null)
             {
-                return gson.toJson(occurrences);
+                return gson.toJson(exampleBundles);
+            }
+        }
+        else
+        {
+            result += "The word you are searching for is not in our database!!!" + searchMap.size();
+        }
+
+
+        return result;
+    }
+
+    @GET
+    @Path("/getVerbOccurrences")
+    // The Java method will produce content identified by the MIME Media type "text/plain"
+    @Produces("application/json")
+    public String getExampleBundle(@QueryParam("verb") String verb, @QueryParam("patternId") int patternId, @QueryParam("bundleId") int bundleId)
+    {
+        String result= "";
+        if(!isExampleSearchInitialized)
+        {
+            result += initializeExampleSearch();
+        }
+        Gson gson  = new Gson();
+
+        if(searchMap.containsKey(verb))
+        {
+            if(searchMap.get(verb).size()> bundleId)
+            {
+                ExampleBundle exampleBundle = searchMap.get(verb).get(bundleId);
+                VerbPattern vp = null;
+                if(patternMap.containsKey(verb))
+                {
+                    if(patternMap.get(verb).getPatterns().size() > patternId)
+                    {
+                        for(Occurrence o : exampleBundle.getOccurrences())
+                        {
+                            vp = patternMap.get(verb).getPatterns().get(patternId);
+                            vp.addExample(o);
+                        }
+
+                    }
+
+
+                }
+                else
+                {
+                    
+                }
+
+                if(vp!=null)
+                {
+                    PatternXmlWriter xmlWriter = new PatternXmlWriter();
+                    xmlWriter.writePatternToXMLFile(vp);
+                }
             }
         }
         else
@@ -296,23 +350,45 @@ public class SearchEngine {
                     for (File f : new File(fileType).listFiles())
                     {
                         int pos = f.getName().lastIndexOf(".");
-                        String treenankId = f.getName().substring(0, pos);
+                        String treebankId = f.getName().substring(0, pos);
                         ArrayList<Sentence> sentences = xmlFileReader.readXMLFile(fileType + f.getName());
 
                         for (Sentence s : sentences)
                         {
-                            ArrayList<Word> verbList = getVerbList(s);
+                            ArrayList<Word> verbList = s.getVerbList();
 
                             for (Word verb : verbList) {
-                                Occurrence currentOccurrence = new Occurrence(treenankId, s.getID(), verb.getId(),"classic");
-                                if (!searchMap.containsKey(verb.getLemma())) {
+                                Occurrence currentOccurrence = new Occurrence(treebankId, s.getID(), verb.getId(),"classic");
+                                if (!searchMap.containsKey(verb.getLemma()))
+                                {
 
-                                    ArrayList<Occurrence> occurrences = new ArrayList<Occurrence>();
-                                    occurrences.add(currentOccurrence);
-                                    searchMap.put(verb.getLemma(), occurrences);
+                                    ArrayList<ExampleBundle> exampleBundles = new ArrayList<ExampleBundle>();
+                                    ExampleBundle exampleBundle = new ExampleBundle(s.getWordArguments(verb.getId()), currentOccurrence);
+                                    exampleBundles.add(exampleBundle);
 
-                                } else {
-                                    searchMap.get(verb.getLemma()).add(currentOccurrence);
+                                    searchMap.put(verb.getLemma(), exampleBundles);
+
+                                }
+                                else
+                                {
+                                    boolean added = false;
+
+                                    for(ExampleBundle bundle :searchMap.get(verb.getLemma()))
+                                    {
+                                        if(areEqual(bundle.getArguments(), s.getWordArguments(verb.getId())))
+                                        {
+                                            bundle.addExample(currentOccurrence);
+                                            added = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if(!added)
+                                    {
+                                        ExampleBundle exampleBundle = new ExampleBundle(s.getWordArguments(verb.getId()), currentOccurrence);
+                                        searchMap.get(verb.getLemma()).add(exampleBundle);
+                                    }
+
                                 }
                             }
                         }
@@ -327,23 +403,45 @@ public class SearchEngine {
                 for (File f : new File(fileType).listFiles())
                 {
                     int pos = f.getName().lastIndexOf(".");
-                    String treenankId = f.getName().substring(0, pos);
+                    String treebankId = f.getName().substring(0, pos);
                     ArrayList<Sentence> sentences = xmlFileReader.readXMLFile(fileType + f.getName());
 
                     for (Sentence s : sentences)
                     {
-                        ArrayList<Word> verbList = getVerbList(s);
+                        ArrayList<Word> verbList = s.getVerbList();
 
                         for (Word verb : verbList) {
-                            Occurrence currentOccurrence = new Occurrence(treenankId, s.getID(), verb.getId(), "UD");
-                            if (!searchMap.containsKey(verb.getLemma())) {
+                            Occurrence currentOccurrence = new Occurrence(treebankId, s.getID(), verb.getId(), "UD");
+                            if (!searchMap.containsKey(verb.getLemma()))
+                            {
 
-                                ArrayList<Occurrence> occurrences = new ArrayList<Occurrence>();
-                                occurrences.add(currentOccurrence);
-                                searchMap.put(verb.getLemma(), occurrences);
+                                ArrayList<ExampleBundle> exampleBundles = new ArrayList<ExampleBundle>();
+                                ExampleBundle exampleBundle = new ExampleBundle(s.getWordArguments(verb.getId()), currentOccurrence);
+                                exampleBundles.add(exampleBundle);
 
-                            } else {
-                                searchMap.get(verb.getLemma()).add(currentOccurrence);
+                                searchMap.put(verb.getLemma(), exampleBundles);
+
+                            }
+                            else
+                            {
+                                boolean added = false;
+
+                                for(ExampleBundle bundle :searchMap.get(verb.getLemma()))
+                                {
+                                    if(areEqual(bundle.getArguments(), s.getWordArguments(verb.getId())))
+                                    {
+                                        bundle.addExample(currentOccurrence);
+                                        added = true;
+                                        break;
+                                    }
+                                }
+
+                                if(!added)
+                                {
+                                    ExampleBundle exampleBundle = new ExampleBundle(s.getWordArguments(verb.getId()), currentOccurrence);
+                                    searchMap.get(verb.getLemma()).add(exampleBundle);
+                                }
+
                             }
                         }
                     }
@@ -358,23 +456,45 @@ public class SearchEngine {
                 for (File f : new File(fileType).listFiles())
                 {
                     int pos = f.getName().lastIndexOf(".");
-                    String treenankId = f.getName().substring(0, pos);
+                    String treebankId = f.getName().substring(0, pos);
                     ArrayList<Sentence> sentences = xmlFileReader.readXMLFile(fileType + f.getName());
 
                     for (Sentence s : sentences)
                     {
-                        ArrayList<Word> verbList = getVerbList(s);
+                        ArrayList<Word> verbList = s.getVerbList();
 
                         for (Word verb : verbList) {
-                            Occurrence currentOccurrence = new Occurrence(treenankId, s.getID(), verb.getId(), "semantic");
-                            if (!searchMap.containsKey(verb.getLemma())) {
+                            Occurrence currentOccurrence = new Occurrence(treebankId, s.getID(), verb.getId(), "semantic");
+                            if (!searchMap.containsKey(verb.getLemma()))
+                            {
 
-                                ArrayList<Occurrence> occurrences = new ArrayList<Occurrence>();
-                                occurrences.add(currentOccurrence);
-                                searchMap.put(verb.getLemma(), occurrences);
+                                ArrayList<ExampleBundle> exampleBundles = new ArrayList<ExampleBundle>();
+                                ExampleBundle exampleBundle = new ExampleBundle(s.getWordArguments(verb.getId()), currentOccurrence);
+                                exampleBundles.add(exampleBundle);
 
-                            } else {
-                                searchMap.get(verb.getLemma()).add(currentOccurrence);
+                                searchMap.put(verb.getLemma(), exampleBundles);
+
+                            }
+                            else
+                            {
+                                boolean added = false;
+
+                                for(ExampleBundle bundle :searchMap.get(verb.getLemma()))
+                                {
+                                    if(areEqual(bundle.getArguments(), s.getWordArguments(verb.getId())))
+                                    {
+                                        bundle.addExample(currentOccurrence);
+                                        added = true;
+                                        break;
+                                    }
+                                }
+
+                                if(!added)
+                                {
+                                    ExampleBundle exampleBundle = new ExampleBundle(s.getWordArguments(verb.getId()), currentOccurrence);
+                                    searchMap.get(verb.getLemma()).add(exampleBundle);
+                                }
+
                             }
                         }
                     }
@@ -393,19 +513,20 @@ public class SearchEngine {
     }
 
 
-    private ArrayList<Word> getVerbList(Sentence aSentence)
+    private boolean areEqual(ArrayList<String> first , ArrayList<String> second)
     {
-        ArrayList<Word> verbList = new ArrayList<Word>();
-
-        for(Word w: aSentence.getWordList())
+        if(first.size() != second.size())
         {
-            if(w.getPOSTag().startsWith("V"))
+            return false;
+        }
+        for(String s: first)
+        {
+            if(!second.contains(s))
             {
-                verbList.add(w);
+                return false;
             }
         }
-
-        return verbList;
+        return true;
     }
 
     private int getNextVerbId()

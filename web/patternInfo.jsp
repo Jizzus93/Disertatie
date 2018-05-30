@@ -25,6 +25,7 @@
     int searchedVerb = Integer.parseInt(request.getParameter("verbId"));
 
     int patternId = Integer.parseInt(request.getParameter("patternId"));
+
     boolean isAuthenticated = (request.getParameter("add").equals("true"))?true:false; //TODO: IMPLEMENT USERS
 
 
@@ -361,7 +362,7 @@
                 if(exampleInfoBean.getExamplesNumber() <= 0)
                 {
                     out.println("<div id=\"add_example\" class=\"tab-pane fade in active\">");
-                    out.println("<iframe src=\"addExample.jsp?verb="+exampleInfoBean.getForm_ro().toLowerCase()+"\" width=\"100%\" height=\"60%\"></iframe>");
+                    out.println("<iframe src=\"addExample.jsp?verb="+exampleInfoBean.getForm_ro().toLowerCase()+ "&patternId="+ patternId +"\" width=\"100%\" height=\"60%\"></iframe>");
                     out.println("</div>");
                 }
                 else
@@ -380,7 +381,7 @@
                         out.println("</div>");
                     }
                     out.println("<div id=\"add_example\" class=\"tab-pane fade\">");
-                    out.println("<iframe src=\"addExample.jsp?verb="+exampleInfoBean.getForm_ro().toLowerCase()+"\" width=\"100%\" height=\"60%\"></iframe>");
+                    out.println("<iframe src=\"addExample.jsp?verb="+exampleInfoBean.getForm_ro().toLowerCase()+ "&patternId="+ patternId +"\" width=\"100%\" height=\"60%\"></iframe>");
                     out.println("</div>");
                 }
             %>

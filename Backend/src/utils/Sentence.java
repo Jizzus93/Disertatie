@@ -72,6 +72,37 @@ public class Sentence {
         this.mWordList = a_WordList;
     }
 
+    public ArrayList<String> getWordArguments(int wordId)
+    {
+        ArrayList<String> arguments = new ArrayList<String>();
+        for(Word w: mWordList)
+        {
+            if(w.getHead() == wordId)
+            {
+                if(!arguments.contains(w.getDepRel()))
+                {
+                    arguments.add(w.getDepRel().trim());
+                }
+            }
+        }
+
+        return arguments;
+    }
+
+    public ArrayList<Word> getVerbList()
+    {
+        ArrayList<Word> verbList = new ArrayList<Word>();
+
+        for(Word w: mWordList)
+        {
+            if(w.getPOSTag().startsWith("V"))
+            {
+                verbList.add(w);
+            }
+        }
+
+        return verbList;
+    }
 
     public String toString()
     {

@@ -39,4 +39,6 @@ public class VerbPatternWriter {
         PatternXmlWriter xmlWriter = new PatternXmlWriter();
         xmlWriter.writePatternToXMLFile(inputPattern);
     }
+
 }
+

@@ -71,4 +71,7 @@ public class VerbEntity {
         return patternInfo;
     }
 
+    public ArrayList<VerbPattern> getPatterns() {
+        return patterns;
+    }
 }

@@ -23,6 +23,7 @@
 <body>
 <%
     int searchedVerb = Integer.parseInt(request.getParameter("verbId"));
+    String verb = request.getParameter("verb");
     int patternId = Integer.parseInt(request.getParameter("patternId"));
 
 %>
@@ -239,7 +240,9 @@
         <textarea <%=isReadOnly%> class="form-control" id="implicatures" name="implicatures" value=""><%=implicaturesString%></textarea>
     </div>
 
-
+    <div class=" form-group-row">
+        <iframe src="addExample.jsp?verb=<%=verb%>&patternId=<%=patternId%>" width="100%" height="60%"></iframe>
+    </div>
 
 
     <button <%=isHidden%> >Save Changes</button>

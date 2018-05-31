@@ -84,16 +84,22 @@ public class SearchEngine {
     }
 
     @GET
-    @Path("/getVerbOccurrences")
+    @Path("/addExamplesToPattern")
     // The Java method will produce content identified by the MIME Media type "text/plain"
-    @Produces("application/json")
-    public String getExampleBundle(@QueryParam("verb") String verb, @QueryParam("patternId") int patternId, @QueryParam("bundleId") int bundleId)
+
+    public String addExamplesToPattern(@QueryParam("verb") String verb, @QueryParam("patternId") int patternId, @QueryParam("bundleId") int bundleId)
     {
         String result= "";
         if(!isExampleSearchInitialized)
         {
             result += initializeExampleSearch();
         }
+
+        if(!isInitialized)
+        {
+            result += initialize();
+        }
+
         Gson gson  = new Gson();
 
         if(searchMap.containsKey(verb))
@@ -104,21 +110,30 @@ public class SearchEngine {
                 VerbPattern vp = null;
                 if(patternMap.containsKey(verb))
                 {
-                    if(patternMap.get(verb).getPatterns().size() > patternId)
+                    if(patternMap.get(verb).getPatterns().size() >= patternId)
                     {
+                        vp = patternMap.get(verb).getPatterns().get(patternId - 1);
                         for(Occurrence o : exampleBundle.getOccurrences())
                         {
-                            vp = patternMap.get(verb).getPatterns().get(patternId);
                             vp.addExample(o);
                         }
 
+                    }
+                    else
+                    {
+                        vp = new VerbPattern(patternMap.get(verb).getId(), (patternMap.get(verb).getPatterns().size() + 1) , verb, "fix" );
+                        for(Occurrence o : exampleBundle.getOccurrences())
+                        {
+                            vp.addExample(o);
+                        }
+                        patternMap.get(verb).addPattern(vp);
                     }
 
 
                 }
                 else
                 {
-                    
+                    vp = new VerbPattern(getNextVerbId(), 1, verb, "fix");
                 }
 
                 if(vp!=null)
@@ -130,7 +145,7 @@ public class SearchEngine {
         }
         else
         {
-            result += "The word you are searching for is not in our database!!!" + searchMap.size();
+            result += "Specified bundle id is invalid!!!" + searchMap.size();
         }
 
 

@@ -37,7 +37,7 @@ public class VerbPattern {
     int examplesNumber;
     transient String logs = "";
 
-    public VerbPattern(int verb_id, int id, String form_romainian,String form_english )
+    public VerbPattern(int verb_id, int id, String form_romainian,String form_english)
     {
         this.verb_id = verb_id;
         this.id = id;

@@ -57,6 +57,7 @@
 
 <form action="exampleSave.jsp" method="post" target="_blank" >
     <input type="text" name="patternId" value="<%=patternId%>" hidden>
+    <input type="text" name="verb" value="<%=verb%>" hidden>
     <button style="position: fixed; margin-left: 80%">Add Selected Examples</button>
     <div class="container">
 
@@ -83,7 +84,7 @@
 
                         out.println("<iframe src=\"exampleInfo.jsp?"+params+"\" ></iframe>");
                         out.println("<br>");
-                        out.println("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"exampleBundle" + i + "\" value=\""+arguments+"\">" + arguments + exampleBundles.get(i).getOccurrences().size() + "</label>");
+                        out.println("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"exampleBundle" + i + "\" value=\""+i+"\">" + arguments + exampleBundles.get(i).getOccurrences().size() + "</label>");
 
 
                         out.println("</div>");
@@ -104,7 +105,7 @@
 
                         out.println("<iframe src=\"exampleInfo.jsp?"+params+"\" ></iframe>");
                         out.println("<br>");
-                        out.println("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"exampleBundle" + i + "\" value=\""+arguments+"\">"+arguments + exampleBundles.get(i).getOccurrences().size() + "</label>");
+                        out.println("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"exampleBundle" + i + "\" value=\""+i+"\">"+arguments + exampleBundles.get(i).getOccurrences().size() + "</label>");
 
                         out.println("</div>");
 

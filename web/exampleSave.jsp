@@ -1,6 +1,10 @@
 <%@ page import="java.util.Enumeration" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="bean.ExampleBundleBean" %><%--
+<%@ page import="bean.ExampleBundleBean" %>
+<%@ page import="java.net.URL" %>
+<%@ page import="java.net.HttpURLConnection" %>
+<%@ page import="java.io.BufferedReader" %>
+<%@ page import="java.io.InputStreamReader" %><%--
   Created by IntelliJ IDEA.
   User: octak
   Date: 5/30/2018
@@ -16,7 +20,9 @@
 <%
     Enumeration paramNames = request.getParameterNames();
     int patternId = -1;
-    ArrayList<String> arguments = new ArrayList<String>();
+    String verb = "";
+    ArrayList<Integer> arguments = new ArrayList<Integer>();
+
     while(paramNames.hasMoreElements())
     {
         String paramName = (String)paramNames.nextElement();
@@ -26,18 +32,45 @@
             patternId = Integer.parseInt(request.getParameter(paramName));
         }
 
+        if(paramName.equals("verb"))
+        {
+            verb = request.getParameter(paramName);
+        }
+
         if(paramName.contains("exampleBundle"))
         {
-            arguments.add(request.getParameter(paramName));
+            arguments.add(Integer.parseInt(request.getParameter(paramName)));
         }
         String paramValue = request.getParameter(paramName);
         out.println("<td> " + paramValue + "</td></tr>\n");
     }
-
-    if(patternId != -1 && !arguments.isEmpty())
+    out.println(patternId + " | " + arguments.isEmpty() + " | " + verb.equals(""));
+    if(patternId != -1 && !arguments.isEmpty() && !verb.equals(""))
     {
-        for(String s: arguments)
+        for(int bundleId: arguments)
         {
+            URL url = new URL("http://localhost:8080/Backend_war_exploded/searchEngine/addExamplesToPattern?verb=" + verb + "&patternId=" + patternId + "&bundleId=" + bundleId);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "application/json");
+
+            if (conn.getResponseCode() != 200) {
+
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + conn.getResponseCode());
+            }
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+                    (conn.getInputStream())));
+            StringBuilder jsonStr = new StringBuilder();
+            String output;
+            while ((output = br.readLine()) != null) {
+                jsonStr.append(output);
+            }
+
+            conn.disconnect();
+
+            out.println(jsonStr);
 
         }
     }

@@ -121,7 +121,7 @@
                     }
                 %>
                 <div id="add_pattern" class="tab-pane fade<%=(verbEntitiy.getPatterns().size()==0)?"in active":""%>">
-                    <iframe src="patternAdd.jsp?verbId=<%=verbEntitiy.getId()%>&patternId=<%=(verbEntitiy.getPatterns().size()+1)%>&add=true" width="100%" height="60%"></iframe>
+                    <iframe src="patternAdd.jsp?verbId=<%=verbEntitiy.getId()%>&patternId=<%=(verbEntitiy.getPatterns().size()+1)%>&verb=<%=searchedVerb%>" width="100%" height="60%"></iframe>
                 </div>
 
             </div>

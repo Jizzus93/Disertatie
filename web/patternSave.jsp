@@ -10,7 +10,8 @@
 <%@ page import="java.io.OutputStream" %>
 <%@ page import="java.io.DataOutputStream" %>
 <%@ page import="java.lang.reflect.Executable" %>
-<%@ page import="java.io.InputStream" %><%--
+<%@ page import="java.io.InputStream" %>
+<%@ page import="java.util.Enumeration" %><%--
   Created by IntelliJ IDEA.
   User: octak
   Date: 5/21/2018
@@ -30,6 +31,13 @@
     String form_ro = request.getParameter("pattern_form_ro");
     String form_en = request.getParameter("pattern_form_en");
     String pwn = request.getParameter("pattern_pwn");
+
+    Enumeration paramNames = request.getParameterNames();
+    while(paramNames.hasMoreElements()) {
+        String paramName = (String) paramNames.nextElement();
+        out.print("<tr><td>" + paramName + "</td>\n");
+    }
+
 
     VerbPatternBean verbPattern = new VerbPatternBean(verb_id,pattern_id,form_ro,form_en);
 
@@ -55,6 +63,7 @@
     }
 
     verbPattern.setVerbPatternType(verbPatternType);
+
 
     VerbPatternInfoBean verbPatternInfo = new VerbPatternInfoBean();
 
@@ -108,7 +117,7 @@
         }
     }
 
-    String ud_restrictions = request.getParameter("ud_restrictions");
+    String ud_restrictions = request.getParameter("UD_restrictions");
     if(!ud_restrictions.equals(""))
     {
         String[] split_str = ud_restrictions.split(" ");
@@ -118,7 +127,8 @@
         }
     }
 
-    String ud_advanced_arguments = request.getParameter("ud_advanced_arguments");
+
+    String ud_advanced_arguments = request.getParameter("UD_advanced_arguments");
     if(!ud_advanced_arguments.equals(""))
     {
         String[] split_str = ud_advanced_arguments.split(" ");
@@ -128,7 +138,7 @@
         }
     }
 
-    String ud_advanced_adjuncts = request.getParameter("ud_advanced_adjuncts");
+    String ud_advanced_adjuncts = request.getParameter("UD_advanced_adjuncts");
     if(!ud_advanced_adjuncts.equals(""))
     {
         String[] split_str = ud_advanced_adjuncts.split(" ");
@@ -138,7 +148,7 @@
         }
     }
 
-    String ud_arguments = request.getParameter("ud_arguments");
+    String ud_arguments = request.getParameter("UD_arguments");
     if(!ud_arguments.equals(""))
     {
         String[] split_str = ud_arguments.split(" ");
@@ -148,7 +158,7 @@
         }
     }
 
-    String ud_adjuncts = request.getParameter("ud_adjuncts");
+    String ud_adjuncts = request.getParameter("UD_adjuncts");
     if(!ud_adjuncts.equals(""))
     {
         String[] split_str = ud_adjuncts.split(" ");
@@ -222,6 +232,8 @@
         }
         verbPattern.setImplicatures(list);
     }
+
+
 
     Gson gson = new Gson();
 

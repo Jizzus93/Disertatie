@@ -56,13 +56,14 @@
 
 
 
-    <div class="container">
+    <div class="container" style="width: 90%;">
 
-        <header class=" container-fluid row" >
-            <img class="col-md-4" style="width: 250px; height: 125px; border-width: 1px; border-color: black; " src="img/nlp_logo.png">
-
-            <div class="col-md-4 text-center" >
-                <span class="font-weight-bold h1" > PDRoV </span>
+        <header class="row" >
+            <div class="col-md-4">
+                <img style="width: 250px; height: 125px; border-width: 1px; border-color: black; " src="img/nlp_logo.png">
+            </div>
+            <div class="col-md-4" >
+                <span class="font-weight-bold h1 text-center" > PDRoV </span>
             </div>
 
             <form class="form-signin col-md-4">
@@ -99,7 +100,7 @@
             </div>
         </div>
 
-
+        <br>
 
         <div class="row">
             <div class="tab-content col-md-10 ">

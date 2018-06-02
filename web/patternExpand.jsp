@@ -6,6 +6,8 @@
 <%@ page import="bean.VerbPatternInfoBean" %>
 <%@ page import="bean.WordBean" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.nio.charset.Charset" %>
+<%@ page import="java.net.URLEncoder" %>
 <%--
   Created by IntelliJ IDEA.
   User: octak
@@ -27,7 +29,7 @@
     String searchedVerb = request.getParameter("verb");
     int patternId = Integer.parseInt(request.getParameter("patternId"));
 
-    URL url = new URL("http://localhost:8080/Backend_war_exploded/searchEngine/getPatternInfo?verb="+ searchedVerb+"&patternId="+ patternId);
+    URL url = new URL("http://localhost:8080/Backend_war_exploded/searchEngine/getPatternInfo?verb="+ URLEncoder.encode(searchedVerb, "UTF-8") +"&patternId="+ patternId);
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     conn.setRequestMethod("GET");
     conn.setRequestProperty("Accept", "application/json");
@@ -39,7 +41,7 @@
     }
 
     BufferedReader br = new BufferedReader(new InputStreamReader(
-            (conn.getInputStream())));
+            (conn.getInputStream()), Charset.forName("UTF-8")));
     StringBuilder jsonStr = new StringBuilder();
     String output;
     while ((output = br.readLine()) != null) {

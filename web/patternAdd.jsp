@@ -22,6 +22,7 @@
 </head>
 <body>
 <%
+    request.setCharacterEncoding("UTF-8");
     int searchedVerb = Integer.parseInt(request.getParameter("verbId"));
     String verb = request.getParameter("verb");
     int patternId = Integer.parseInt(request.getParameter("patternId"));

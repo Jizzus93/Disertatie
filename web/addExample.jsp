@@ -8,7 +8,9 @@
 <%@ page import="bean.OccurrenceBean" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.google.gson.reflect.TypeToken" %>
-<%@ page import="bean.ExampleBundleBean" %><%--
+<%@ page import="bean.ExampleBundleBean" %>
+<%@ page import="java.nio.charset.Charset" %>
+<%@ page import="java.net.URLEncoder" %><%--
   Created by IntelliJ IDEA.
   User: octak
   Date: 5/26/2018
@@ -17,6 +19,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
 <head>
     <link href="css/bootstrap.css" rel='stylesheet' type='text/css' />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -24,12 +28,16 @@
 </head>
 <body>
 <%
+    request.setCharacterEncoding("UTF-8");
     String verb = request.getParameter("verb");
+
     int patternId = Integer.parseInt(request.getParameter("patternId"));
 
 
 
-    URL url = new URL("http://localhost:8080/Backend_war_exploded/searchEngine/getVerbOccurrences?verb=" + verb);
+
+    URL url = new URL("http://localhost:8080/Backend_war_exploded/searchEngine/getVerbOccurrences?verb=" + URLEncoder.encode(verb, "UTF-8") );
+
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     conn.setRequestMethod("GET");
     conn.setRequestProperty("Accept", "application/json");
@@ -41,7 +49,7 @@
     }
 
     BufferedReader br = new BufferedReader(new InputStreamReader(
-            (conn.getInputStream())));
+            (conn.getInputStream()), Charset.forName("UTF-8")));
     StringBuilder jsonStr = new StringBuilder();
     String output;
     while ((output = br.readLine()) != null) {

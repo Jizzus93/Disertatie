@@ -4,7 +4,8 @@
 <%@ page import="java.io.InputStreamReader" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="bean.SentenceBean" %>
-<%@ page import="bean.WordBean" %><%--
+<%@ page import="bean.WordBean" %>
+<%@ page import="java.nio.charset.Charset" %><%--
   Created by IntelliJ IDEA.
   User: octak
   Date: 5/26/2018
@@ -20,6 +21,7 @@
 </head>
 <body>
 <%
+    request.setCharacterEncoding("UTF-8");
     String treebankId = request.getParameter("treebankId");
     String sentenceId = request.getParameter("sentenceId");
 
@@ -44,7 +46,7 @@
     }
 
     BufferedReader br = new BufferedReader(new InputStreamReader(
-            (conn.getInputStream())));
+            (conn.getInputStream()), Charset.forName("UTF-8")));
     StringBuilder jsonStr = new StringBuilder();
     String output;
     while ((output = br.readLine()) != null) {

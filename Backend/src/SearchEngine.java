@@ -25,7 +25,7 @@ public class SearchEngine {
     @GET
     @Path("/search")
     // The Java method will produce content identified by the MIME Media type "text/plain"
-    @Produces("application/json")
+    @Produces("application/json; charset=utf-8")
     public String search(@QueryParam("word") String word)
     {
         String result= "";
@@ -55,7 +55,7 @@ public class SearchEngine {
     @GET
     @Path("/getVerbOccurrences")
     // The Java method will produce content identified by the MIME Media type "text/plain"
-    @Produces("application/json")
+    @Produces("application/json; charset=utf-8")
     public String getVerbOccurrences(@QueryParam("verb") String verb)
     {
         String result= "";
@@ -76,7 +76,7 @@ public class SearchEngine {
         }
         else
         {
-            result += "The word you are searching for is not in our database!!!" + searchMap.size();
+            result += "The " + verb +" you are searching for is not in our database!!!" + searchMap.size();
         }
 
 
@@ -155,7 +155,7 @@ public class SearchEngine {
     @GET
     @Path("/getRoPAASVerbs")
     // The Java method will produce content identified by the MIME Media type "text/plain"
-    @Produces("application/json")
+    @Produces("application/json; charset=utf-8")
     public String getRoPAASVerbs()
     {
         String result= "";
@@ -181,7 +181,7 @@ public class SearchEngine {
     @GET
     @Path("/getDeltaTreebankVerbs")
     // The Java method will produce content identified by the MIME Media type "text/plain"
-    @Produces("application/json")
+    @Produces("application/json; charset=utf-8")
     public String getDeltaTreebankVerbs()
     {
         String result= "";
@@ -212,7 +212,7 @@ public class SearchEngine {
     @GET
     @Path("/getExample")
     // The Java method will produce content identified by the MIME Media type "text/plain"
-    @Produces("application/json")
+    @Produces("application/json; charset=utf-8")
     public String getExample(@QueryParam("treebankId") String treeBankId, @QueryParam("sentenceId") String sentenceId, @QueryParam("wordId") String wordId, @QueryParam("type") String type)
     {
         String log= "";
@@ -272,7 +272,7 @@ public class SearchEngine {
 
     @GET
     @Path("/getPatternInfo")
-    @Produces("application/json")
+    @Produces("application/json; charset=utf-8")
     public String getPatternInfo(@QueryParam("verb") String verb, @QueryParam("patternId") int patternId)
     {
         String result = "";

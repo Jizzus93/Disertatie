@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 
 @Path("/verbPatternWriter")
 public class VerbPatternWriter {
@@ -20,7 +21,7 @@ public class VerbPatternWriter {
     {
         StringBuilder inputBuilder = new StringBuilder();
         try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
             String line = null;
             while((line = in.readLine()) != null)
             {

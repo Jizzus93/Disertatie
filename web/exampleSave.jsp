@@ -4,7 +4,9 @@
 <%@ page import="java.net.URL" %>
 <%@ page import="java.net.HttpURLConnection" %>
 <%@ page import="java.io.BufferedReader" %>
-<%@ page import="java.io.InputStreamReader" %><%--
+<%@ page import="java.io.InputStreamReader" %>
+<%@ page import="java.nio.charset.Charset" %>
+<%@ page import="java.net.URLEncoder" %><%--
   Created by IntelliJ IDEA.
   User: octak
   Date: 5/30/2018
@@ -18,6 +20,7 @@
 </head>
 <body>
 <%
+    request.setCharacterEncoding("UTF-8");
     Enumeration paramNames = request.getParameterNames();
     int patternId = -1;
     String verb = "";
@@ -49,7 +52,7 @@
     {
         for(int bundleId: arguments)
         {
-            URL url = new URL("http://localhost:8080/Backend_war_exploded/searchEngine/addExamplesToPattern?verb=" + verb + "&patternId=" + patternId + "&bundleId=" + bundleId);
+            URL url = new URL("http://localhost:8080/Backend_war_exploded/searchEngine/addExamplesToPattern?verb=" + URLEncoder.encode(verb, "UTF-8") + "&patternId=" + patternId + "&bundleId=" + bundleId);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setRequestProperty("Accept", "application/json");
@@ -61,7 +64,7 @@
             }
 
             BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
+                    (conn.getInputStream()), Charset.forName("UTF-8")));
             StringBuilder jsonStr = new StringBuilder();
             String output;
             while ((output = br.readLine()) != null) {

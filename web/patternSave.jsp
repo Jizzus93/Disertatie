@@ -24,6 +24,7 @@
 </head>
 <body>
 <%
+    request.setCharacterEncoding("UTF-8");
     int pattern_id = Integer.parseInt(request.getParameter("pattern_id"));
     int verb_id = Integer.parseInt(request.getParameter("verb_id"));
     String form_ro = request.getParameter("pattern_form_ro");

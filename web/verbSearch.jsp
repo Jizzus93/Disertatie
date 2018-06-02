@@ -5,7 +5,9 @@
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="bean.VerbPatternBean" %>
 <%@ page import="bean.VerbEntityBean" %>
-<%@ page import="bean.OccurrenceBean" %><%--
+<%@ page import="bean.OccurrenceBean" %>
+<%@ page import="java.nio.charset.Charset" %>
+<%@ page import="java.net.URLEncoder" %><%--
   Created by IntelliJ IDEA.
   User: octak
   Date: 5/6/2018
@@ -22,8 +24,10 @@
 </head>
 <body>
     <%
+        request.setCharacterEncoding("UTF-8");
         String searchedVerb = request.getParameter("search");
-        URL url = new URL("http://localhost:8080/Backend_war_exploded/searchEngine/search?word="+searchedVerb);
+
+        URL url = new URL("http://localhost:8080/Backend_war_exploded/searchEngine/search?word="+ URLEncoder.encode(searchedVerb, "UTF-8"));
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
         conn.setRequestProperty("Accept", "application/json");
@@ -35,7 +39,7 @@
         }
 
         BufferedReader br = new BufferedReader(new InputStreamReader(
-                (conn.getInputStream())));
+                (conn.getInputStream()), Charset.forName("UTF-8")));
         StringBuilder jsonStr = new StringBuilder();
         String output;
         while ((output = br.readLine()) != null) {

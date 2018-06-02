@@ -6,7 +6,8 @@
 <%@ page import="bean.VerbPatternInfoBean" %>
 <%@ page import="bean.VerbPatternBean" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="bean.OccurrenceBean" %><%--
+<%@ page import="bean.OccurrenceBean" %>
+<%@ page import="java.nio.charset.Charset" %><%--
   Created by IntelliJ IDEA.
   User: octak
   Date: 5/14/2018
@@ -15,6 +16,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -22,6 +24,7 @@
 </head>
 <body>
 <%
+    request.setCharacterEncoding("UTF-8");
     int searchedVerb = Integer.parseInt(request.getParameter("verbId"));
 
     int patternId = Integer.parseInt(request.getParameter("patternId"));
@@ -41,7 +44,7 @@
     }
 
     BufferedReader br = new BufferedReader(new InputStreamReader(
-            (conn.getInputStream())));
+            (conn.getInputStream()), Charset.forName("UTF-8")));
     StringBuilder jsonStr = new StringBuilder();
     String output;
     while ((output = br.readLine()) != null) {

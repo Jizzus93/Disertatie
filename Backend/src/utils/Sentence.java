@@ -89,6 +89,7 @@ public class Sentence {
         return arguments;
     }
 
+
     public ArrayList<Word> getVerbList()
     {
         ArrayList<Word> verbList = new ArrayList<Word>();

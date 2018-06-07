@@ -5,7 +5,8 @@
 <%@ page import="com.google.gson.Gson" %>
 <%@ page import="bean.SentenceBean" %>
 <%@ page import="bean.WordBean" %>
-<%@ page import="java.nio.charset.Charset" %><%--
+<%@ page import="java.nio.charset.Charset" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: octak
   Date: 5/26/2018
@@ -65,7 +66,33 @@
     }
 
 %>
-<p><%=text%></p>
+<div class="container" style="width: 90%;">
+    <div class="row">
+        <p><%=text%></p>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
+            <div id="lvl_up" class="tab-pane fade">
+                <%
+                    ArrayList<String> parentArguments = new ArrayList<String>();
+                    parentArguments = sentence.getWordArguments(sentence.getWord(wordId).getHead());
+                    String parentArgumentsString = "";
+                    for(String s: parentArguments)
+                    {
+                        parentArgumentsString += s + " ";
+                    }
+                %>
+                <p><%=parentArgumentsString%></p>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <ul class="nav nav-pills nav-stacked">
+                <li ><a data-toggle="tab" href="#lvl_up">Show lvlUp dependencies</a></li>
+            </ul>
+        </div>
+    </div>
 
+
+</div>
 </body>
 </html>

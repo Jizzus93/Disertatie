@@ -88,4 +88,21 @@ public class SentenceBean {
 
         return response;
     }
+
+    public ArrayList<String> getWordArguments(int wordId)
+    {
+        ArrayList<String> arguments = new ArrayList<String>();
+        for(WordBean w: mWordList)
+        {
+            if(w.getHead() == wordId)
+            {
+                if(!arguments.contains(w.getDepRel()))
+                {
+                    arguments.add(w.getDepRel().trim());
+                }
+            }
+        }
+
+        return arguments;
+    }
 }

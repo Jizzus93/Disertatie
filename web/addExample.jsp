@@ -90,7 +90,7 @@
                         out.println("<div class=\"row\">");
                         out.println("<div class=\"col-sm\">");
 
-                        out.println("<iframe src=\"exampleInfo.jsp?"+params+"\" ></iframe>");
+                        out.println("<iframe src=\"exampleInfo.jsp?"+params+"\" width=\"100%\"></iframe>");
                         out.println("<br>");
                         out.println("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"exampleBundle" + i + "\" value=\""+i+"\">" + arguments + exampleBundles.get(i).getOccurrences().size() + "</label>");
 
@@ -111,7 +111,7 @@
                         }
                         out.println("<div class=\"col-sm\">");
 
-                        out.println("<iframe src=\"exampleInfo.jsp?"+params+"\" ></iframe>");
+                        out.println("<iframe src=\"exampleInfo.jsp?"+params+"\" width=\"100%\" ></iframe>");
                         out.println("<br>");
                         out.println("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"exampleBundle" + i + "\" value=\""+i+"\">"+arguments + exampleBundles.get(i).getOccurrences().size() + "</label>");
 

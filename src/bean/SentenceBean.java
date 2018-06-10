@@ -51,7 +51,12 @@ public class SentenceBean {
     //WARNING: wordId counter starts from 1
     public WordBean getWord(int wordId)
     {
-        return this.mWordList.get(wordId - 1);
+        if(this.mWordList.size()>= wordId)
+        {
+            return this.mWordList.get(wordId - 1);
+        }
+
+        return null;
     }
 
 

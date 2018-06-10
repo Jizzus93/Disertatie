@@ -22,7 +22,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body background="img/background4.png">
     <%
         request.setCharacterEncoding("UTF-8");
         String searchedVerb = request.getParameter("search");
@@ -56,18 +56,19 @@
 
 
 
-    <div class="container" style="width: 90%;">
+    <div class="container" style="width: 90%; height: 97%;">
 
         <header class="row" >
             <div class="col-md-4">
-                <img style="width: 250px; height: 125px; border-width: 1px; border-color: black; " src="img/nlp_logo.png">
+                <h1 style="margin-top: 20%;"><span style="font-size: 40px; background-color: #28a745;" class = "label"><%=searchedVerb%></span></h1>
             </div>
             <div class="col-md-4" >
-                <span class="font-weight-bold h1 text-center" > PDRoV </span>
+                <br>
+                <span class="font-weight-bold h1 text-center" style="padding-left: 20%;"> PDRoV </span>
             </div>
 
             <form class="form-signin col-md-4">
-
+                <br>
 
                 <label for="inputEmail" class="sr-only">Email address</label>
                 <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
@@ -78,29 +79,13 @@
                         <input type="checkbox" value="remember-me"> Remember me
                     </label>
                 </div>
-                <button class="btn btn-sm btn-primary btn-block" type="submit">Sign in</button>
+                <button class="btn btn-sm btn-primary btn-block" type="submit" style="background-color: #28a745; border-color: #28a745">Sign in</button>
 
             </form>
         </header>
-        <br>
-        <br>
-        <div class="row">
-            <div class="col-md-5 ">
-                <h1 ><span style="font-size: 40px" class = "label label-warning"><%=searchedVerb%></span></h1>
-            </div>
-            <div class="col-md-3">
-                <h4>EN</h4>
-                <h4><%=searchedVerb%></h4>
-            </div>
-            <div class="col-md-2">
-                <button>RoWN</button>
-            </div>
-            <div class="col-md-2">
-                <button>VerbNet</button>
-            </div>
-        </div>
 
-        <br>
+
+
 
         <div class="row">
             <div class="tab-content col-md-10 ">
@@ -119,14 +104,14 @@
                         String getValue = "?verbId="+verbEntitiy.getId()+"&patternId="+ (i+1) +"&add=true";
                         //<jsp:include page="patternInfo.jsp?verb=arde&patternId=0" flush="true"></jsp:include>
                         //http://localhost:8080/JSPPlayground3_war_exploded/
-                        out.println("<iframe src=\"patternInfo.jsp"+getValue+"\" width=\"100%\" height=\"60%\"></iframe>");
+                        out.println("<iframe src=\"patternInfo.jsp"+getValue+"\" width=\"100%\" height=\"81%\" frameBorder=\"0\"></iframe>");
 
                         out.println("</div>");
 
                     }
                 %>
                 <div id="add_pattern" class="tab-pane fade<%=(verbEntitiy.getPatterns().size()==0)?"in active":""%>">
-                    <iframe src="patternAdd.jsp?verbId=<%=verbEntitiy.getId()%>&patternId=<%=(verbEntitiy.getPatterns().size()+1)%>&verb=<%=searchedVerb%>" width="100%" height="60%"></iframe>
+                    <iframe src="patternAdd.jsp?verbId=<%=verbEntitiy.getId()%>&patternId=<%=(verbEntitiy.getPatterns().size()+1)%>&verb=<%=searchedVerb%>" width="100%" height="81%" frameBorder="0" ></iframe>
                 </div>
 
             </div>
@@ -160,6 +145,17 @@
 
 
     </div>
+    <!-- Footer -->
+    <footer style="background-color:  #28a745;">
 
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2018 Copyright:
+            <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com</a>
+        </div>
+        <!-- Copyright -->
+
+    </footer>
+    <!-- Footer -->
 </body>
 </html>

@@ -25,7 +25,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body background="img/background4.png">
 <%
     request.setCharacterEncoding("UTF-8");
     String searchedVerb = request.getParameter("search");
@@ -58,18 +58,19 @@
 
 
 
-<div class="container" style="width: 90%;">
+<div class="container" style="width: 90%; height: 97%;">
 
     <header class="row" >
         <div class="col-md-4">
-            <img style="width: 250px; height: 125px; border-width: 1px; border-color: black; " src="img/nlp_logo.png">
+            <h1 style="margin-top: 20%;"><span style="font-size: 40px; background-color: #28a745;" class = "label"><%=searchedVerb%></span></h1>
         </div>
         <div class="col-md-4" >
-            <span class="font-weight-bold h1 text-center" > RODiA </span>
+            <br>
+            <span class="font-weight-bold h1 text-center" style="padding-left: 20%;"> PDRoV </span>
         </div>
 
         <form class="form-signin col-md-4">
-
+            <br>
 
             <label for="inputEmail" class="sr-only">Email address</label>
             <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
@@ -80,76 +81,96 @@
                     <input type="checkbox" value="remember-me"> Remember me
                 </label>
             </div>
-            <button class="btn btn-sm btn-primary btn-block" type="submit">Sign in</button>
+            <button class="btn btn-sm btn-primary btn-block" type="submit" style="background-color: #28a745; border-color: #28a745">Sign in</button>
 
         </form>
     </header>
-    <%
 
-        for(int i=0; i< exampleBundles.size() && i<21; i++)
-        {
-            switch(i%2)
-            {
-                case 0:
+
+
+
+    <div class="row">
+        <div class="tab-content col-md-10 ">
+
+            <%
+                for(int i= 0; i<exampleBundles.size(); i++)
                 {
+                    if(i==0)
+                    {
+                        out.println("<div id=\"preview_example"+(i+1)+"\" class=\"tab-pane fade in active\">");
+                    }
+                    else
+                    {
+                        out.println("<div id=\"preview_example"+(i+1)+"\" class=\"tab-pane fade\">");
+                    }
                     OccurrenceBean occurrence = exampleBundles.get(i).getOccurrences().get(0);
-
                     String params = "treebankId=" + occurrence.getTreebankID() + "&sentenceId=" + occurrence.getSentenceID() + "&wordId=" + occurrence.getWordID() + "&exampleType=" + occurrence.getOccurrenceType();
 
-                    String arguments = "";
-                    for(String argument: exampleBundles.get(i).getArguments())
+
+                    out.println("<iframe src=\"exampleInfo.jsp?"+params+"\" width=\"100%\" height=\"81%\" frameBorder=\"0\"></iframe>");
+
+                    out.println("</div>");
+
+                }
+            %>
+        </div>
+        <input type="hidden" name="word" value="searchedWord">
+        <div class="col-md-2">
+            <ul class="nav nav-pills nav-stacked">
+
+                <%
+                    if(exampleBundles.size()!=0)
                     {
-                        arguments += argument + " | ";
+                        String arguments = "";
+                        for(String argument: exampleBundles.get(0).getArguments())
+                        {
+                            arguments += argument + " | ";
+                        }
+                        if(arguments.equals(""))
+                        {
+                            arguments = "None";
+                        }
+
+                        out.println("<li class=\"active\"><a data-toggle=\"tab\" href=\"#preview_example1\">"+ arguments +"</a></li>");
+                        for(int i= 1; i<exampleBundles.size(); i++)
+                        {
+                            arguments = "";
+                            for(String argument: exampleBundles.get(i).getArguments())
+                            {
+                                arguments += argument + " | ";
+                            }
+                            if(arguments.equals(""))
+                            {
+                                arguments = "None";
+                            }
+                            out.println("<li><a data-toggle=\"tab\" href=\"#preview_example" + (i+1) + "\">" + arguments + "</a></li>");
+                        }
                     }
 
-                    out.println("<div class=\"row\">");
-                    out.println("<div class=\"col-sm-6\">");
 
-                    out.println("<iframe src=\"exampleInfo.jsp?"+params+"\" width=\"100%\"></iframe>");
-                    out.println("<br>");
-                    out.println("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"exampleBundle" + i + "\" value=\""+i+"\">" + arguments + exampleBundles.get(i).getOccurrences().size() + "</label>");
+                %>
+            </ul>
+        </div>
+
+        <div class="clearfix visible-lg"></div>
+    </div>
 
 
-                    out.println("</div>");
-                    break;
-                }
-                case 1:
-                {
-                    OccurrenceBean occurrence = exampleBundles.get(i).getOccurrences().get(0);
 
-                    String params = "treebankId=" + occurrence.getTreebankID() + "&sentenceId=" + occurrence.getSentenceID() + "&wordId=" + occurrence.getWordID() + "&exampleType=" + occurrence.getOccurrenceType();
-
-                    String arguments = "";
-                    for(String argument: exampleBundles.get(i).getArguments())
-                    {
-                        arguments += argument + " | ";
-                    }
-                    out.println("<div class=\"col-sm-6\">");
-
-                    out.println("<iframe src=\"exampleInfo.jsp?"+params+"\" width=\"100%\" ></iframe>");
-                    out.println("<br>");
-                    out.println("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"exampleBundle" + i + "\" value=\""+i+"\">"+arguments + exampleBundles.get(i).getOccurrences().size() + "</label>");
-
-                    out.println("</div>");
-
-                    out.println("</div>");
-                    break;
-                }
-                default:
-                {
-                    break;
-                }
-            }
-        }
-        if(((exampleBundles.size()-1) %2 != 1) && exampleBundles.size()<21)
-        {
-            out.println("</div>");
-        }
-
-        //
-    %>
 
 </div>
+<!-- Footer -->
+<footer style="background-color:  #28a745;">
+
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+        <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
 
 </body>
 </html>

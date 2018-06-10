@@ -20,7 +20,7 @@
     <title>$Title$</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
-<body>
+<body background="img/background3.png" >
 
 <%
 
@@ -28,17 +28,17 @@
 
 %>
 
-<div class="container" style="width: 90%;">
+<div class="container" style="width: 90%; height: 97%">
     <header class="row" >
         <div class="col-md-4">
-            <img style="width: 250px; height: 125px; border-width: 1px; border-color: black; " src="img/nlp_logo.png">
+            <img style="width: 350px; height: 160px; border-width: 1px; border-color: black; " src="img/nlp_logo.png">
         </div>
         <div class="col-md-4" >
 
         </div>
 
         <form class="form-signin col-md-4">
-
+            <br>
 
             <label for="inputEmail" class="sr-only">Email address</label>
             <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
@@ -49,7 +49,7 @@
                     <input type="checkbox" value="remember-me"> Remember me
                 </label>
             </div>
-            <button class="btn btn-sm btn-primary btn-block" type="submit">Sign in</button>
+            <button class="btn btn-sm btn-primary btn-block" type="submit" style="background-color: #28a745; border-color: #28a745">Sign in</button>
 
         </form>
     </header>
@@ -58,12 +58,16 @@
     <br>
     <br>
     <br>
+    <br>
+    <br>
+    <br>
+    <br>
     <div class="row align-content-center">
 
         <form class="text-center" action="wordSearch.jsp" method="get" style="width: 100%" >
-            <span class="font-weight-bold h1" > RODiA </span> <span class="font-weight-bold h3" ><a href="index.jsp"> PDRoV </a></span> <br><br>
-            Search <input type="text" name="search" style="width: 45%;"/><br/>
-            <button>Search!</button>
+            <span class="font-weight-bold h1" style="padding-left: 5%;"> RODiA </span> <span class="font-weight-bold h3" ><a href="index.jsp" style="color: #28a745;"> PDRoV </a></span> <br><br>
+            <input type="text" name="search" style="width: 45%;"/><br/>
+            <button class="btn  btn-primary " type="submit" style="background-color: #28a745; border-color: #28a745; margin-top: 10px;">Search!</button>
 
         </form>
     </div>
@@ -72,7 +76,18 @@
 
 </div>
 
+<!-- Footer -->
+<footer style="background-color:  #28a745;">
 
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+        <a href="https://mdbootstrap.com/bootstrap-tutorial/"> MDBootstrap.com</a>
+    </div>
+    <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
 
 
 

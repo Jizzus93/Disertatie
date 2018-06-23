@@ -18,7 +18,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <head>
     <title>$Title$</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 <body background="img/background3.png" >
 

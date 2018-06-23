@@ -42,4 +42,12 @@ public class Occurrence {
     }
 
     public int getWordID() { return this.mWordID; }
+
+    public String getOccurrenceType() {
+        return occurrenceType;
+    }
+
+    public void setOccurrenceType(String occurrenceType) {
+        this.occurrenceType = occurrenceType;
+    }
 }

@@ -21,7 +21,7 @@
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -66,7 +66,7 @@
         </div>
         <div class="col-md-4" >
             <br>
-            <span class="font-weight-bold h1 text-center" style="padding-left: 20%;"> PDRoV </span>
+            <span class="font-weight-bold h1 text-center" style="padding-left: 20%;"> RoDia </span>
         </div>
 
         <form class="form-signin col-md-4">
@@ -131,7 +131,7 @@
                             arguments = "None";
                         }
 
-                        out.println("<li class=\"active\"><a data-toggle=\"tab\" href=\"#preview_example1\">"+ arguments +"</a></li>");
+                        out.println("<li class=\"active\"><a data-toggle=\"tab\" href=\"#preview_example1\" style=\"color: #000; font-weight: bold;\">"+ arguments +"</a></li>");
                         for(int i= 1; i<exampleBundles.size(); i++)
                         {
                             arguments = "";
@@ -143,7 +143,7 @@
                             {
                                 arguments = "None";
                             }
-                            out.println("<li><a data-toggle=\"tab\" href=\"#preview_example" + (i+1) + "\">" + arguments + "</a></li>");
+                            out.println("<li><a data-toggle=\"tab\" href=\"#preview_example" + (i+1) + "\" style=\"color: #000; font-weight: bold;\">" + arguments + "</a></li>");
                         }
                     }
 

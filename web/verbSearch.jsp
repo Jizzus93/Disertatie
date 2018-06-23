@@ -18,7 +18,7 @@
 <html>
 <head>
     <title>Title</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
@@ -122,17 +122,17 @@
                     <%
                         if(verbEntitiy.getPatterns().size()!=0)
                         {
-                            out.println("<li ><a data-toggle=\"tab\" href=\"#add_pattern\">Add Pattern</a></li>");
-                            out.println("<li class=\"active\"><a data-toggle=\"tab\" href=\"#preview_pattern1\">Pattern 1</a></li>");
+                            out.println("<li ><a data-toggle=\"tab\" href=\"#add_pattern\" style=\"color: #000; font-weight: bold;\">Add Pattern</a></li>");
+                            out.println("<li class=\"active\"><a data-toggle=\"tab\" href=\"#preview_pattern1\" style=\"color: #000; font-weight: bold;\">Pattern 1<span class=\"badge\">20%</span></a></li>");
                         }
                         else
                         {
-                            out.println("<li class=\"active\"><a data-toggle=\"tab\" href=\"#add_pattern\">Add Pattern</a></li>");
+                            out.println("<li class=\"active\"><a data-toggle=\"tab\" href=\"#add_pattern\" style=\"color: #000; font-weight: bold;\">Add Pattern</a></li>");
                         }
 
                         for(int i= 1; i<verbEntitiy.getPatterns().size(); i++)
                         {
-                            out.println("<li><a data-toggle=\"tab\" href=\"#preview_pattern" + (i+1) + "\">Pattern " + (i+1) + "</a></li>");
+                            out.println("<li><a data-toggle=\"tab\" href=\"#preview_pattern" + (i+1) + "\" style=\"color: #000; font-weight: bold;\">Pattern " + (i+1) + "<span class=\"badge\">20%</span></a> </li>");
                         }
                     %>
                 </ul>
